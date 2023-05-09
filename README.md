@@ -53,6 +53,10 @@ Run `nx build backe-end:production`
 The project uses Prisma ORM.
 To run migrations `npx prisma migrate dev`
 
+## View Tables
+
+Run `npx prisma studio` and navigate to `http://localhost:5555`
+
 ## Remote caching
 
 Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and make CI faster.
