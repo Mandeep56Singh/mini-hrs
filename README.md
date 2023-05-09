@@ -1,8 +1,8 @@
 # NxMiniHrs
 This is a MonoRepo project consisiting of a NestJs backend and React Front end.
 It uses the following 
-1. Ant Design system
-2. Prisma ORM
+1. Ant Design system v5
+2. Prisma (ORM) v4.13
 
 ## Requirements
 1. Node v16+
