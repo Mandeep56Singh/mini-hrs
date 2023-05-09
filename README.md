@@ -4,8 +4,9 @@ This is a MonoRepo project consisiting of a NestJs backend and React Front end.
 ## Requirements
 1. Node v16+
 2. npm
-3. PostgreSQL database
-4. Docker
+3. Nx v16+
+4. PostgreSQL database
+5. Docker
 
 ## Setup and installation
 1. Clone project
@@ -25,15 +26,32 @@ DATABASE_URL="postgresql://<user>:<password>@<host>:<port>/<database>?schema=<sc
 ## Testing
 
 ### Front end tests
-Run `nx test front-end`
+Run `nx test front-end`. Project uses Jest
+For e2e testing with Cypress run `nx e2e front-end-e2e`
 
 ### Backend tests
 
 Run `nx test back-end`
+Run `nx e2e back-end-e2e`
 
 ## Understand this workspace
 
 Run `nx graph` to see a diagram of the dependencies of the projects.
+
+## Build
+
+### Front End
+
+Run `nx build front-end:production`
+
+### Backend
+
+Run `nx build backe-end:production`
+
+## Migrations
+
+The project uses Prisma ORM.
+To run migrations `npx prisma migrate dev`
 
 ## Remote caching
 
