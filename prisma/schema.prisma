@@ -17,3 +17,36 @@ model Test {
   updatedAt DateTime @updatedAt
   value Boolean
 }
+
+model Patient {
+  id Int @id @default(autoincrement())
+  uuid String @default(uuid())
+  patientNames PatientName[]
+  patientIdentifiers PatientIdentifier[]
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PatientName {
+  id Int @id @default(autoincrement())
+  firstName String
+  lastName String
+  patient Patient @relation(fields: [patientId],references: [id])
+  patientId Int
+  uuid String @default(uuid())
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PatientIdentifier {
+    id Int @id @default(autoincrement())
+    identifier String
+    patient Patient @relation(fields: [patientId],references: [id])
+    patientId Int
+    uuid String @default(uuid())
+    voided Boolean @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
