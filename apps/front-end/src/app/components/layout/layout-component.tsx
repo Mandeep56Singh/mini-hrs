@@ -1,5 +1,6 @@
 import { Breadcrumb, Layout, Menu, theme , MenuProps } from 'antd';
-import NavigationComponent from '../navigation-component/navigation-component';
+import NavigationComponent from '../navigation/navigation-component';
+import { Outlet } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
 
@@ -49,7 +50,7 @@ export function LayoutComponent(props: LayoutComponentProps) {
             background: colorBgContainer,
           }}
         >
-          App Content will go here
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

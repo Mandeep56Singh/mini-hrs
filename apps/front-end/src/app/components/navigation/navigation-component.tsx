@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import styles from './navigation-component.module.css';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Route, Routes, Link } from 'react-router-dom';
+import { Login } from '../../pages/login/login';
+
 
 /* eslint-disable-next-line */
 export interface NavigationComponentProps {}
@@ -33,6 +33,12 @@ export function NavigationComponent(props: NavigationComponentProps) {
         <Link to="/">Settings</Link>
       ),
       key: 'settings',
+    },
+    {
+      label: (
+        <Link to="/login">Login</Link>
+      ),
+      key: 'login',
     },
     {
       label: (
