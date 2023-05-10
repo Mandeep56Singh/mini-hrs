@@ -33,4 +33,14 @@ export class PatientsService {
             }
         });
     }
+    findByIdentifier(identifier: string): Promise<Patient[]>{
+        return this.prismaService.patientIdentifier.findMany({
+            where:{
+                identifier: identifier
+            },
+            include:{
+                patient: true
+            }
+        });
+    }
 }
