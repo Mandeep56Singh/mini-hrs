@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import { Route, Routes, Link } from 'react-router-dom';
-import { Login } from '../../pages/login/login';
+import { Link } from 'react-router-dom';
 
 
 /* eslint-disable-next-line */
@@ -21,6 +20,12 @@ export function NavigationComponent(props: NavigationComponentProps) {
         <Link to="/">Home</Link>
       ),
       key: 'home',
+    },
+    {
+      label: (
+        <Link to="/patient-search">Patient Search</Link>
+      ),
+      key: 'patient-search',
     },
     {
       label: (
