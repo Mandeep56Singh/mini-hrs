@@ -5,42 +5,51 @@ import { createPatientDto } from './dtos/create-patient.dto';
 
 @Injectable()
 export class PatientsService {
-    constructor(private prismaService: PrismaService){
-
-    }
-    findAll(){
-        return this.prismaService.patient.findMany({
-            include:{
-                patientNames: true,
-                patientIdentifiers: true
-            }
-        });
-    }
-    create(body: createPatientDto): Promise<Patient>{
-        return this.prismaService.patient.create({
-            data:{
-                patientNames: {
-                    create: {
-                        firstName: body.patientNames.firstName,
-                        lastName: body.patientNames.lastName
-                    }
-                },
-                patientIdentifiers:{
-                    create:{
-                        identifier: body.patientIdentifiers.identifier
-                    }
-                }
-            }
-        });
-    }
-    findByIdentifier(identifier: string): Promise<Patient[]>{
-        return this.prismaService.patientIdentifier.findMany({
-            where:{
-                identifier: identifier
-            },
-            include:{
-                patient: true
-            }
-        });
-    }
+  constructor(private prismaService: PrismaService) {}
+  findAll() {
+    return this.prismaService.patient.findMany({
+      include: {
+        patientNames: true,
+        patientIdentifiers: true,
+      },
+    });
+  }
+  create(body: createPatientDto): Promise<Patient> {
+    return this.prismaService.patient.create({
+      data: {
+        patientNames: {
+          create: {
+            firstName: body.patientNames.firstName,
+            lastName: body.patientNames.lastName,
+          },
+        },
+        patientIdentifiers: {
+          create: {
+            identifier: body.patientIdentifiers.identifier,
+          },
+        },
+      },
+    });
+  }
+  findByIdentifier(identifier: string) {
+    return this.prismaService.patientIdentifier.findMany({
+      where: {
+        identifier: identifier,
+      },
+      include: {
+        patient: true,
+      },
+    });
+  }
+  findByUuid(uuid: string): Promise<Patient> {
+    return this.prismaService.patient.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      include: {
+        patientIdentifiers: true,
+        patientNames: true,
+      },
+    });
+  }
 }
