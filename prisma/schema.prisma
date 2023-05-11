@@ -51,3 +51,37 @@ model PatientIdentifier {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+model Program {
+  id Int @id @default(autoincrement())
+  name String
+  uuid String @default(uuid())
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  visitTypes VisitType[]
+}
+
+model VisitType {
+  id Int @id @default(autoincrement())
+  name String
+  uuid String @default(uuid())
+  program Program @relation(fields: [programId],references: [id])
+  programId Int
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  encounterTypes EncounterType[]
+}
+
+model EncounterType {
+  id Int @id @default(autoincrement())
+  name String
+  uuid String @default(uuid())
+  visitType VisitType @relation(fields: [visitTypeId],references: [id])
+  visitTypeId Int
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
