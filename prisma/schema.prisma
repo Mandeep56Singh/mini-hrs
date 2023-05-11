@@ -24,6 +24,8 @@ model Patient {
   dob DateTime?
   patientNames PatientName[]
   patientIdentifiers PatientIdentifier[]
+  visits Visit[]
+  encounters Encounter[]
   voided Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -72,6 +74,7 @@ model VisitType {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   encounterTypes EncounterType[]
+  visits Visit[]
 }
 
 model EncounterType {
@@ -80,6 +83,48 @@ model EncounterType {
   uuid String @default(uuid())
   visitType VisitType @relation(fields: [visitTypeId],references: [id])
   visitTypeId Int
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  encounters Encounter[]
+}
+
+model Location {
+  id Int @id @default(autoincrement())
+  name String
+  uuid String @default(uuid())
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  visits Visit[]
+  encounters Encounter[]
+}
+
+model Visit {
+  id Int @id @default(autoincrement())
+  visitDate DateTime
+  patient Patient @relation(fields: [patientId],references: [id])
+  patientId Int
+  location Location @relation(fields: [locationId], references: [id])
+  locationId Int
+  visitType VisitType @relation(fields: [visitTypeId],references: [id])
+  visitTypeId Int
+  uuid String @default(uuid())
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Encounter {
+  id Int @id @default(autoincrement())
+  encounterDate DateTime
+  patient Patient @relation(fields: [patientId],references: [id])
+  patientId Int
+  encounterType EncounterType @relation(fields: [encounterTypeId], references: [id])
+  encounterTypeId Int
+  location Location @relation(fields: [locationId], references: [id])
+  locationId Int
+  uuid String @default(uuid())
   voided Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
