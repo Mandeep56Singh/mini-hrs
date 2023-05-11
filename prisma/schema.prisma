@@ -21,6 +21,7 @@ model Test {
 model Patient {
   id Int @id @default(autoincrement())
   uuid String @default(uuid())
+  dob DateTime?
   patientNames PatientName[]
   patientIdentifiers PatientIdentifier[]
   voided Boolean @default(false)
