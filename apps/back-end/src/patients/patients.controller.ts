@@ -11,18 +11,18 @@ export class PatientsController {
   findAll(): Promise<Patient[]> {
     return this.patientsService.findAll();
   }
-  @Get(':uuid')
-  findByUuid(@Param('uuid') uuid: string):Promise<Patient>{
-    return this.patientsService.findByUuid(uuid);
+  @Get('search')
+  findOne(@Query() req: { identifier: string }){
+    const { identifier } = req;
+    return this.patientsService.findByIdentifier(identifier);
   }
   @Post()
   create(@Body() body: createPatientDto):Promise<Patient>{
     const payload = body;
     return this.patientsService.create(payload);
   }
-  @Get('search')
-  findOne(@Query() req: { identifier: string }){
-    const { identifier } = req;
-    return this.patientsService.findByIdentifier(identifier);
+  @Get(':uuid')
+  findByUuid(@Param('uuid') uuid: string):Promise<Patient>{
+    return this.patientsService.findByUuid(uuid);
   }
 }

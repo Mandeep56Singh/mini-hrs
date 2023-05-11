@@ -17,6 +17,8 @@ export class PatientsService {
   create(body: createPatientDto): Promise<Patient> {
     return this.prismaService.patient.create({
       data: {
+        gender: body.gender,
+        dob: new Date(body.dob),
         patientNames: {
           create: {
             firstName: body.patientNames.firstName,

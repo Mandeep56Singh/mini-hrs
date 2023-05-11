@@ -12,6 +12,7 @@ interface DataType {
   key: React.Key;
   identifier: string;
   dob: string | undefined;
+  gender: string | undefined;
   patientUuid: string | undefined;
 }
 
@@ -26,27 +27,38 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'DOB',
     dataIndex: 'dob',
+  },
+  {
+    title: 'Gender',
+    dataIndex: 'gender',
   }
 ];
 
 const PatientSearch: React.FC = () => {
   const [searchString, setSearchString] = useState('');
   const [searchResults, setSearchResults] = useState<PatientIdentifier[]>([]);
-  const data: DataType[] = searchResults.map((result) => {
-    return {
-      key: result?.id,
-      identifier: result?.identifier,
-      dob: result.patient?.dob,
-      patientUuid: result.patient?.uuid
-    };
-  });
+  const [tableData,setTableData] = useState([]);
   const onChangeHandler = (s: string) => {
     setSearchString(s);
   };
   const onEnterHandler = async () => {
     const results: PatientIdentifier[] = await patientSearch(searchString);
     setSearchResults(results);
+    processTableData(results);
   };
+  const processTableData = (results)=>{
+    const data  = results.map((result) => {
+      return {
+        key: result?.id,
+        identifier: result?.identifier,
+        dob: result.patient?.dob,
+        gender: result.patient?.gender,
+        patientUuid: result.patient?.uuid
+      };
+    });
+
+    setTableData(data);
+  }
   return (
     <>
       <Row>
@@ -63,10 +75,10 @@ const PatientSearch: React.FC = () => {
       </Row>
       <Row>
         <Col span={14} offset={5}>
-          {data.length ? 
+          {tableData.length ? 
           <TableList 
           cols={columns} 
-          data={data}
+          data={tableData}
           /> : ''}
         </Col>
       </Row>

@@ -8,10 +8,9 @@ import { Link } from 'react-router-dom';
 export interface NavigationComponentProps {}
 
 export function NavigationComponent(props: NavigationComponentProps) {
-  const [current, setCurrent] = useState('mail');
+  const [current, setCurrent] = useState('home');
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
     setCurrent(e.key);
   };
   const items: MenuProps['items'] = [

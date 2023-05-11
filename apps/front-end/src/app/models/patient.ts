@@ -1,6 +1,7 @@
 export interface Patient {
   id: number;
   dob: string;
+  gender: string;
   uuid: string;
   voided: boolean;
   createdAt: string;

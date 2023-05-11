@@ -22,6 +22,7 @@ model Patient {
   id Int @id @default(autoincrement())
   uuid String @default(uuid())
   dob DateTime?
+  gender String?
   patientNames PatientName[]
   patientIdentifiers PatientIdentifier[]
   visits Visit[]

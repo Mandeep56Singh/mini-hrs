@@ -2,22 +2,27 @@ import React,{ useState, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Patient } from "../../models/patient";
 import { getPatient } from "../../resources/patient.resource";
+import PatientInfo from "../../components/patient-info/patient-info";
 
 const PatientLanding: React.FC = ()=>{
     const data = useLoaderData();
     const [currentPatient,setCurrentPatient]= useState<Patient>();
+    const [patientLoaded,setPatientLoaded] = useState<boolean>(false)
 
     useEffect(()=> {
-        const patient = getCurrentPatient(data.uuid);
-        setCurrentPatient(patient);
+        getCurrentPatient(data.uuid).then((patient:Patient)=>{
+            setCurrentPatient(patient);
+            setPatientLoaded(true);
+        });
     },[data]);
-    const getCurrentPatient = async (patientUuid: string)=>{
-           const patient = await getPatient(patientUuid);
+    const getCurrentPatient = async (patientUuid: string): Promise<Patient> =>{
+           const patient: Patient = await getPatient(patientUuid);
            return patient;
     };
-    console.log('data', data);
     return(
-        <p>Patient Landing</p>
+        <div>
+        {patientLoaded && <PatientInfo patient={currentPatient} />}
+        </div>
     );
 }
 
