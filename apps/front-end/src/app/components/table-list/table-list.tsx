@@ -3,18 +3,15 @@ import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import './table-list.css';
 
-const TableList: React.FC<{ cols: ColumnsType<any>; data: any;}> = ({
+const TableList: React.FC<{ cols: ColumnsType<any>; data: any }> = ({
   cols,
-  data
+  data,
 }) => {
-  return(
-  <div className='table-list'>
-       <Table 
-       columns={cols} 
-       dataSource={data}
-       />
-  </div>
-  )
+  return (
+    <div className="table-list">
+      <Table columns={cols} dataSource={data} size="middle" />
+    </div>
+  );
 };
 
 export default TableList;
