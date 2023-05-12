@@ -143,7 +143,7 @@ model ProgramEnrollment {
   location Location @relation(fields: [locationId], references: [id])
   locationId Int
   startDate DateTime
-  endDate DateTime
+  endDate DateTime?
   uuid String @default(uuid())
   voided Boolean @default(false)
   createdAt DateTime @default(now())

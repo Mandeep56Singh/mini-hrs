@@ -8,9 +8,39 @@ export class ProgramEnrollmentsService {
 
     }
     findAll(){
-        return this.prismaService.programEnrollment.findMany();
+        return this.prismaService.programEnrollment.findMany({
+            select:{
+                uuid: true,
+                startDate: true,
+                endDate: true,
+                patient: {
+                    select: {
+                        uuid: true
+                    }
+                },
+                program: {
+                   select:{
+                      uuid: true,
+                      name: true
+                   }
+                },
+                location: {
+                    select:{
+                        uuid: true,
+                        name: true
+                    }
+                }
+            },
+        });
     }
     create(body: CreateProgramEnrollmentDto){
-      return null;
+      return this.prismaService.programEnrollment.create({
+          data: {
+            programId: parseInt(body.programId),
+            patientId: parseInt(body.patientId),
+            locationId: parseInt(body.locationId),
+            startDate: new Date(body.startDate)
+          }
+      });
     }
 }
