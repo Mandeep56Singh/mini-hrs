@@ -11,9 +11,6 @@ export class ProgramEnrollmentsService {
         return this.prismaService.programEnrollment.findMany();
     }
     create(body: CreateProgramEnrollmentDto){
-         return this.prismaService.programEnrollment.create({
-             data: {
-             }
-         });
+      return null;
     }
 }
