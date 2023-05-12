@@ -18,7 +18,7 @@ export class ProgramsController {
         return this.programsService.create(body);
     }
     @Get(':uuid')
-    findByUuid(@Param('uuid') uuid: string){
+    findByUuid(@Param('uuid') uuid: string):Promise<Program>{
        return this.programsService.findByUuid(uuid);
     }
 }

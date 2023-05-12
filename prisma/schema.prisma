@@ -30,6 +30,7 @@ model Patient {
   voided Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  programEnrollments ProgramEnrollment[]
 }
 
 model PatientName {
@@ -63,6 +64,7 @@ model Program {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   visitTypes VisitType[]
+  programEnrollments ProgramEnrollment[]
 }
 
 model VisitType {
@@ -99,6 +101,7 @@ model Location {
   updatedAt DateTime @updatedAt
   visits Visit[]
   encounters Encounter[]
+  programEnrollments ProgramEnrollment[]
 }
 
 model Visit {
@@ -125,6 +128,22 @@ model Encounter {
   encounterTypeId Int
   location Location @relation(fields: [locationId], references: [id])
   locationId Int
+  uuid String @default(uuid())
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProgramEnrollment {
+  id Int @id @default(autoincrement())
+  program Program @relation(fields: [programId],references: [id])
+  programId Int
+  patient Patient @relation(fields: [patientId],references: [id])
+  patientId Int
+  location Location @relation(fields: [locationId], references: [id])
+  locationId Int
+  startDate DateTime
+  endDate DateTime
   uuid String @default(uuid())
   voided Boolean @default(false)
   createdAt DateTime @default(now())
