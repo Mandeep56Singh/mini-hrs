@@ -3,9 +3,11 @@ import { useLoaderData } from "react-router-dom";
 import { Patient } from "../../models/patient";
 import { getPatient } from "../../resources/patient.resource";
 import PatientInfo from "../../components/patient-info/patient-info";
+import ProgramEnrollment from "../program-enrollment/program-enrollment";
+import { Row, Col } from "antd";
 
 const PatientLanding: React.FC = ()=>{
-    const data = useLoaderData();
+    const data: {uuid: string} = useLoaderData();
     const [currentPatient,setCurrentPatient]= useState<Patient>();
     const [patientLoaded,setPatientLoaded] = useState<boolean>(false)
 
@@ -20,9 +22,18 @@ const PatientLanding: React.FC = ()=>{
            return patient;
     };
     return(
-        <div>
-        {patientLoaded && <PatientInfo patient={currentPatient} />}
-        </div>
+        <>
+        <Row>
+            <Col>
+              {patientLoaded && <PatientInfo patient={currentPatient} />}
+            </Col>
+        </Row>
+         <Row>
+         <Col>
+           {patientLoaded && <ProgramEnrollment patient={currentPatient} />}
+         </Col>
+     </Row>
+     </>
     );
 }
 

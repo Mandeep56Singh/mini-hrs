@@ -39,7 +39,12 @@ export class PatientsService {
         identifier: identifier,
       },
       include: {
-        patient: true,
+        patient: {
+          include:{
+            patientNames: true,
+            patientIdentifiers: true
+          }
+        }
       },
     });
   }

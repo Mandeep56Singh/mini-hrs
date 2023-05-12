@@ -43,4 +43,36 @@ export class ProgramEnrollmentsService {
           }
       });
     }
+    findPatientEnrollments(patientUuid: string,completed: boolean){
+        return this.prismaService.programEnrollment.findMany({
+            where: {
+                patient:{
+                    uuid:patientUuid
+                },
+                endDate: completed ? null : { not: null }
+            },
+            select:{
+                uuid: true,
+                startDate: true,
+                endDate: true,
+                patient:{
+                    select:{
+                        uuid: true
+                    }
+                },
+                program:{
+                    select:{
+                        name: true,
+                        uuid: true
+                    }
+                },
+                location:{
+                    select:{
+                        name: true,
+                        uuid: true
+                    }
+                }
+            }
+        });
+    }
 }

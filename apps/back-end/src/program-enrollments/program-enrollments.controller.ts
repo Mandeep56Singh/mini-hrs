@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ProgramEnrollmentsService } from './program-enrollments.service';
 import { CreateProgramEnrollmentDto } from './dtos/create-program-enrollment.dto';
 
@@ -11,6 +11,12 @@ export class ProgramEnrollmentsController {
     @Get()
     findAll(){
         return this.programEnrollmentService.findAll();
+    }
+    @Get('patient')
+    findOne(@Query() req: { patientUuid: string; completed: string }){
+      const { patientUuid, completed } = req;
+      const completedProgram = completed === 'true' ? true : false
+      return this.programEnrollmentService.findPatientEnrollments(patientUuid,completedProgram);
     }
     @Post()
     create(@Body() body: CreateProgramEnrollmentDto){
