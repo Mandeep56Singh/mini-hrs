@@ -73,4 +73,24 @@ export class ProgramEnrollmentsService {
       },
     });
   }
+  complete(payload: { enrollmentId: number; endDate: Date }) {
+    return this.prismaService.programEnrollment.update({
+      where: {
+        id: payload.enrollmentId,
+      },
+      data: {
+        endDate: payload.endDate,
+      },
+    });
+  }
+  findIdFromUuid(uuid: string) {
+    return this.prismaService.programEnrollment.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
 }

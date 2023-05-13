@@ -2,6 +2,7 @@ import { getApiUrl } from '../config/config.service';
 import {
   PatientProgramEnrollment,
   ProgramEnrollmentPayload,
+  CompleteEnrollmentPayload,
 } from '../models/program-enrollment';
 
 function getBaseUrl() {
@@ -36,6 +37,21 @@ export async function enroll(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
+  });
+  return enrolledPrograms.json();
+}
+
+export async function completeProgram(payload: CompleteEnrollmentPayload) {
+  const url = getBaseUrl() + `/${payload.enrollmentUuid}`;
+  const data = {
+    endDate: payload.endDate,
+  };
+  const enrolledPrograms = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
   });
   return enrolledPrograms.json();
 }

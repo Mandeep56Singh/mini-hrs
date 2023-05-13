@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Query,
+  Param,
+} from '@nestjs/common';
 import { ProgramEnrollmentsService } from './program-enrollments.service';
 import {
   CreateProgramEnrollmentDto,
   CreateEnrollmentBody,
+  CompleteEnrollmentDto,
 } from './dtos/create-program-enrollment.dto';
 import { PatientsService } from '../patients/patients.service';
 import { ProgramsService } from '../programs/programs.service';
@@ -46,5 +55,19 @@ export class ProgramEnrollmentsController {
     };
 
     return this.programEnrollmentService.create(newEnrollmentBody);
+  }
+  @Patch(':enrollmentUuid')
+  async complete(
+    @Param('enrollmentUuid') enrollmentUuid: string,
+    @Body() body: CompleteEnrollmentDto
+  ) {
+    const enrollment = await this.programEnrollmentService.findIdFromUuid(
+      enrollmentUuid
+    );
+    const completePayLoad = {
+      enrollmentId: enrollment.id,
+      endDate: new Date(body.endDate),
+    };
+    return this.programEnrollmentService.complete(completePayLoad);
   }
 }

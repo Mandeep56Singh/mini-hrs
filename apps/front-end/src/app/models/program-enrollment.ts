@@ -20,3 +20,8 @@ export interface ProgramEnrollmentPayload{
     patientUuid: string;
     locationUuid: string;
 }
+
+export interface CompleteEnrollmentPayload {
+    enrollmentUuid: string;
+    endDate: Date;
+}

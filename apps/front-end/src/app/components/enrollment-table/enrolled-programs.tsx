@@ -1,6 +1,9 @@
 import React from 'react';
 import { PatientProgramEnrollment } from '../../models/program-enrollment';
 import TableList from '../table-list/table-list';
+import { Button } from 'antd';
+import { CompleteEnrollmentPayload } from '../../models/program-enrollment';
+import { completeProgram } from '../../resources/program-enrollment.resource';
 
 const columns = [
   {
@@ -19,15 +22,28 @@ const columns = [
     key: 'startDate',
   },
   {
-    title: 'Completion Date',
+    title: 'Completed Date',
     dataIndex: 'endDate',
     key: 'endDate',
+  },
+  {
+    title: 'Action',
+    dataIndex: 'action',
+    key: 'action',
   },
 ];
 
 const EnrolledPrograms: React.FC<{
   patientPrograms: PatientProgramEnrollment[];
 }> = ({ patientPrograms }) => {
+  const onClickHandler = async (enrollmentUuid: string) => {
+    const payload: CompleteEnrollmentPayload = {
+      endDate: new Date(),
+      enrollmentUuid: enrollmentUuid,
+    };
+    await completeProgram(payload);
+  };
+
   return (
     <TableList
       cols={columns}
@@ -38,6 +54,15 @@ const EnrolledPrograms: React.FC<{
           location: patientProgram.location.name,
           startDate: patientProgram.startDate,
           endDate: patientProgram.endDate,
+          action: (
+            <Button
+              type="primary"
+              danger
+              onClick={() => onClickHandler(patientProgram.uuid)}
+            >
+              Complete
+            </Button>
+          ),
         };
       })}
     />
