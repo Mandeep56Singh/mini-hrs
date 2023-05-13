@@ -11,6 +11,8 @@ import {
   getCompletedPrograms,
 } from '../../resources/program-enrollment.resource';
 import { PatientProgramEnrollment } from '../../models/program-enrollment';
+import { getLocations } from '../../resources/location-resource';
+import { Location } from '../../models/location';
 
 const ProgramEnrollment: React.FC<{ patient: Patient }> = ({ patient }) => {
   const [programs, setPrograms] = useState<Program[]>([]);
@@ -20,11 +22,18 @@ const ProgramEnrollment: React.FC<{ patient: Patient }> = ({ patient }) => {
   const [completedPrograms, setCompletedPrograms] = useState<
     PatientProgramEnrollment[]
   >([]);
+  const [locations, setLocations] = useState<Location[]>([]);
   const items: TabsProps['items'] = [
     {
       key: 'enroll',
       label: `Enroll+`,
-      children: <NewEnrollment programs={programs} />,
+      children: (
+        <NewEnrollment
+          programs={programs}
+          locations={locations}
+          patientUuid={patient.uuid}
+        />
+      ),
     },
     {
       key: 'enrolled-programs',
@@ -49,6 +58,9 @@ const ProgramEnrollment: React.FC<{ patient: Patient }> = ({ patient }) => {
     );
     getCompletedPrograms(patient.uuid).then((completedPrograms) => {
       setCompletedPrograms(completedPrograms);
+    });
+    getLocations().then((locations) => {
+      setLocations(locations);
     });
   }, [patient]);
   return (

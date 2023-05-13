@@ -14,3 +14,9 @@ export interface PatientProgramEnrollment{
          name: string;
     }
 }
+
+export interface ProgramEnrollmentPayload{
+    programUuid: string;
+    patientUuid: string;
+    locationUuid: string;
+}
