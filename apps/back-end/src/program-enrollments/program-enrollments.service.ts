@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../app/prisma/prisma.service';
-import { CreateProgramEnrollmentDto } from './dtos/create-program-enrollment.dto';
+import { CreateEnrollmentBody } from './dtos/create-program-enrollment.dto';
 
 @Injectable()
 export class ProgramEnrollmentsService {
@@ -31,12 +31,12 @@ export class ProgramEnrollmentsService {
       },
     });
   }
-  create(body: CreateProgramEnrollmentDto) {
+  create(body: CreateEnrollmentBody) {
     return this.prismaService.programEnrollment.create({
       data: {
-        programId: parseInt(body.programId),
-        patientId: parseInt(body.patientId),
-        locationId: parseInt(body.locationId),
+        programId: body.programId,
+        patientId: body.patientId,
+        locationId: body.locationId,
         startDate: new Date(body.startDate),
       },
     });

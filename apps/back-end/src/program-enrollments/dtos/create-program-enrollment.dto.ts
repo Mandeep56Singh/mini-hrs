@@ -1,6 +1,13 @@
 export interface CreateProgramEnrollmentDto{
-    programId: string;
-    patientId: string;
-    locationId: string;
-    startDate: string;
+    programUuid: string;
+    patientUuid: string;
+    locationUuid: string;
+    startDate?: string;
+}
+
+export interface CreateEnrollmentBody{
+    programId: number;
+    locationId: number;
+    patientId:number;
+    startDate: Date;
 }

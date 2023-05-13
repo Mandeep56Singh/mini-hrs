@@ -25,4 +25,14 @@ export class ProgramsService {
             }
           });
     }
+    findIdFromUuid(uuid: string){
+        return this.prismaService.program.findFirstOrThrow({
+            where:{
+                uuid: uuid
+            },
+            select:{
+                id: true
+            }
+        });
+    }
 }

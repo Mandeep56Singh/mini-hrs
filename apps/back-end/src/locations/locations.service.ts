@@ -33,4 +33,14 @@ export class LocationsService {
            }
        });
     }
+    findIdFromUuid(uuid: string){
+        return this.prismaService.location.findFirstOrThrow({
+            where:{
+                uuid: uuid
+            },
+            select: {
+               id: true
+            }
+        });
+    }
 }

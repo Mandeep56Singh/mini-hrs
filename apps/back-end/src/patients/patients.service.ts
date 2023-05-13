@@ -59,4 +59,14 @@ export class PatientsService {
       },
     });
   }
+  findIdFromUuid(uuid: string){
+    return this.prismaService.patient.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select:{
+        id: true
+      }
+    });
+  }
 }
