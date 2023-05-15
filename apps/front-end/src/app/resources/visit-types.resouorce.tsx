@@ -1,7 +1,11 @@
 import { getApiUrl } from '../config/config.service';
 
 function getBaseUrl() {
-  return getApiUrl() + `/programs`;
+  return getApiUrl() + `/visit-types`;
 }
 
-const getProgramVisitTypes = (programUuid: string) => {};
+export const getProgramVisitTypes = async (programUuid: string) => {
+  const url = getBaseUrl() + `/program?programUuid=${programUuid}`;
+  const response = await fetch(url);
+  return response.json();
+};

@@ -61,4 +61,14 @@ export class VisitTypesService {
       },
     });
   }
+  findIdFromUuid(uuid: string) {
+    return this.prismaService.visitType.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
 }
