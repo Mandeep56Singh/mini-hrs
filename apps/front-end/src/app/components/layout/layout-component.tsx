@@ -1,15 +1,18 @@
 import { Breadcrumb, Layout, Menu, theme , MenuProps } from 'antd';
 import NavigationComponent from '../navigation/navigation-component';
 import { Outlet } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
 
-const items2: MenuProps['items'] = ['Programs'].map(
+const items2: MenuProps['items'] = ['Visits','Enrollment'].map(
   (menuItem) => { 
    return {
       key: menuItem,
       icon: '',
-      label: menuItem
+      label: (
+        <Link to="visits">{menuItem}</Link>
+      ),
     };
   },
 );
