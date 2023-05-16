@@ -17,3 +17,9 @@ export async function startVisit(payload: CreateVisitPayload): Promise<Visit> {
   });
   return newVisit.json();
 }
+
+export async function getPatientVisits(patientUuid: string): Promise<Visit[]> {
+  const url = getBaseUrl() + `/patient?patientUuid=${patientUuid}`;
+  const visits = await fetch(url);
+  return visits.json();
+}

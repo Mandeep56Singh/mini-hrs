@@ -15,6 +15,7 @@ export interface CreateVisitPayload {
 export interface CreateVisitResponse {
   uuid: string;
   visitDate: Date;
+  visitEnd: Date;
   patient: {
     uuid: string;
   };

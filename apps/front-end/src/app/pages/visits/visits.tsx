@@ -4,6 +4,7 @@ import type { TabsProps } from 'antd';
 import { Row, Col } from 'antd';
 import { useLoaderData } from 'react-router-dom';
 import NewVisit from './new-visit';
+import PatientVisits from './patient-visits';
 
 const Visits: React.FC = () => {
   const data: { uuid: string } = useLoaderData();
@@ -16,7 +17,7 @@ const Visits: React.FC = () => {
     {
       key: 'active-visits',
       label: `Active Visits`,
-      children: '',
+      children: <PatientVisits patientUuid={data.uuid} complete={true} />,
     },
     {
       key: 'completed-visits',

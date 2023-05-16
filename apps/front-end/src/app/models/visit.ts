@@ -8,6 +8,7 @@ export interface CreateVisitPayload {
 export interface Visit {
   uuid: string;
   visitDate: string;
+  visitEnd: string;
   patient: {
     uuid: string;
   };

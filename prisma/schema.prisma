@@ -107,6 +107,7 @@ model Location {
 model Visit {
   id Int @id @default(autoincrement())
   visitDate DateTime
+  visitEnd DateTime?
   patient Patient @relation(fields: [patientId],references: [id])
   patientId Int
   location Location @relation(fields: [locationId], references: [id])
