@@ -5,7 +5,7 @@ import { patientSearch } from '../../resources/patient-search.resource';
 import { ColumnsType } from 'antd/es/table';
 import TableList from '../../components/table-list/table-list';
 import { PatientIdentifier } from '../../models/patient';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const { Search } = Input;
 interface DataType {
@@ -20,9 +20,13 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Identifier',
     dataIndex: 'identifier',
-    render: (text: string,record: DataType) => {
-    return <Link to={`/patient/${record?.patientUuid}`}>{text}</Link>}
-
+    render: (text: string, record: DataType) => {
+      return (
+        <Link to={`/patient-dashboard/${record?.patientUuid}/landing`}>
+          {text}
+        </Link>
+      );
+    },
   },
   {
     title: 'DOB',
@@ -31,13 +35,13 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Gender',
     dataIndex: 'gender',
-  }
+  },
 ];
 
 const PatientSearch: React.FC = () => {
   const [searchString, setSearchString] = useState('');
   const [searchResults, setSearchResults] = useState<PatientIdentifier[]>([]);
-  const [tableData,setTableData] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const onChangeHandler = (s: string) => {
     setSearchString(s);
   };
@@ -46,19 +50,19 @@ const PatientSearch: React.FC = () => {
     setSearchResults(results);
     processTableData(results);
   };
-  const processTableData = (results)=>{
-    const data  = results.map((result) => {
+  const processTableData = (results) => {
+    const data = results.map((result) => {
       return {
         key: result?.id,
         identifier: result?.identifier,
         dob: result.patient?.dob,
         gender: result.patient?.gender,
-        patientUuid: result.patient?.uuid
+        patientUuid: result.patient?.uuid,
       };
     });
 
     setTableData(data);
-  }
+  };
   return (
     <>
       <Row>
@@ -75,11 +79,11 @@ const PatientSearch: React.FC = () => {
       </Row>
       <Row>
         <Col span={14} offset={5}>
-          {tableData.length ? 
-          <TableList 
-          cols={columns} 
-          data={tableData}
-          /> : ''}
+          {tableData.length ? (
+            <TableList cols={columns} data={tableData} />
+          ) : (
+            ''
+          )}
         </Col>
       </Row>
     </>

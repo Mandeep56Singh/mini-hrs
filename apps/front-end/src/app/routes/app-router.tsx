@@ -5,6 +5,7 @@ import Login from "../pages/login/login";
 import PatientSearch from "../pages/patient-search/patient-search";
 import PatientLanding from "../pages/patient-landing/patient-landing";
 import Visits from "../pages/visits/visits";
+import PatientDashboard from "../pages/patient-dashboard/patient-dashboard";
 
 export const appRouter = createBrowserRouter([
     {
@@ -15,16 +16,25 @@ export const appRouter = createBrowserRouter([
         {
         path: 'patient-search',
         element: <PatientSearch/>
-        },
+        }
+      ]
+    },
+    {
+      path: 'patient-dashboard',
+      element: <PatientDashboard />,
+      loader: ({params})=>{
+        return params;
+      },
+      children: [
         {
-          path: 'patient/:uuid',
+          path: ':uuid/landing',
           element: <PatientLanding/>,
           loader: ({params})=>{
               return params;
           }
         },
         {
-          path: 'patient/:uuid/visits',
+          path: ':uuid/visits',
           element: <Visits/>,
           loader: ({params})=>{
               return params;
