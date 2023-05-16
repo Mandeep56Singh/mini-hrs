@@ -1,5 +1,5 @@
 import { getApiUrl } from '../config/config.service';
-import { CreateVisitPayload } from '../models/visit';
+import { CreateVisitPayload, CompleteVisitPayload } from '../models/visit';
 import { Visit } from '../models/visit';
 
 function getBaseUrl() {
@@ -22,4 +22,19 @@ export async function getPatientVisits(patientUuid: string): Promise<Visit[]> {
   const url = getBaseUrl() + `/patient?patientUuid=${patientUuid}`;
   const visits = await fetch(url);
   return visits.json();
+}
+
+export async function endVisit(visitUuid: string, visitEnd: Date) {
+  const url = getBaseUrl() + `/${visitUuid}`;
+  const data: CompleteVisitPayload = {
+    visitEnd: visitEnd,
+  };
+  const enrolledPrograms = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  return enrolledPrograms.json();
 }

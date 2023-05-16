@@ -21,3 +21,7 @@ export interface Visit {
     name: string;
   };
 }
+
+export interface CompleteVisitPayload{
+  visitEnd: Date
+}

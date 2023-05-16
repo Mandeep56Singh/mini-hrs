@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableList from '../../components/table-list/table-list';
-import { getPatientVisits } from '../../resources/visit-resource';
+import { getPatientVisits, endVisit } from '../../resources/visit-resource';
 import { Button } from 'antd';
 import { Visit } from '../../models/visit';
 
@@ -46,15 +46,17 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
   }, [patientUuid, complete]);
 
   const endVisitHandler = (visitUuid: string) => {
-    console.log('endVisitHandler...', visitUuid);
+    const visitEnd = new Date();
+    endVisit(visitUuid, visitEnd);
   };
 
   const filterCompleteVisits = (visits: Visit[], complete: boolean) => {
     return visits.filter((v) => {
       if (complete) {
-        return v.visitEnd !== 'null';
+        console.log(v.visitEnd);
+        return v.visitEnd !== null;
       } else {
-        return v.visitEnd === 'null';
+        return v.visitEnd === null;
       }
     });
   };

@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { VisitsService } from './visits.service';
 import {
   CreateVisitDto,
   CreateVisitPayload,
   CreateVisitResponse,
+  EndVisitPayload,
 } from './dtos/create-visit.dto';
 import { PatientsService } from '../patients/patients.service';
 import { LocationsService } from '../locations/locations.service';
@@ -43,5 +44,18 @@ export class VisitsController {
   async findPatientVisits(@Param('patientUuid') patientUuid: string) {
     const patient = await this.patientsService.findIdFromUuid(patientUuid);
     return this.visitsService.findPatientVisits(patient.id);
+  }
+  @Patch(':visitUuid')
+  async endVisit(
+    @Param('visitUuid') visitUuid: string,
+    @Body() body: { visitEnd: string }
+  ) {
+    const visit = await this.visitsService.findIdFromUuid(visitUuid);
+    const endVisitPayLoad: EndVisitPayload = {
+      visitId: visit.id,
+      visitEnd: new Date(body.visitEnd),
+    };
+
+    return this.visitsService.endVisit(endVisitPayLoad);
   }
 }

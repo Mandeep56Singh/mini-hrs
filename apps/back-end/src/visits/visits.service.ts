@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../app/prisma/prisma.service';
-import { CreateVisitPayload } from './dtos/create-visit.dto';
+import { CreateVisitPayload, EndVisitPayload } from './dtos/create-visit.dto';
 
 @Injectable()
 export class VisitsService {
@@ -84,6 +84,26 @@ export class VisitsService {
             name: true,
           },
         },
+      },
+    });
+  }
+  findIdFromUuid(uuid: string) {
+    return this.prismaService.visit.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
+  endVisit(body: EndVisitPayload) {
+    return this.prismaService.visit.update({
+      where: {
+        id: body.visitId,
+      },
+      data: {
+        visitEnd: body.visitEnd,
       },
     });
   }

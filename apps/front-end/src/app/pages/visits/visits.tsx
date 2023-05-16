@@ -17,12 +17,12 @@ const Visits: React.FC = () => {
     {
       key: 'active-visits',
       label: `Active Visits`,
-      children: <PatientVisits patientUuid={data.uuid} complete={true} />,
+      children: <PatientVisits patientUuid={data.uuid} complete={false} />,
     },
     {
       key: 'completed-visits',
       label: `Completed Visits`,
-      children: '',
+      children: <PatientVisits patientUuid={data.uuid} complete={true} />,
     },
   ];
   return (

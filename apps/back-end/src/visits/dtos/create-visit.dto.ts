@@ -28,3 +28,8 @@ export interface CreateVisitResponse {
     name: string;
   };
 }
+
+export interface EndVisitPayload{
+  visitId: number;
+  visitEnd: Date;
+}
