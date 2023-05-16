@@ -53,13 +53,25 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
   const filterCompleteVisits = (visits: Visit[], complete: boolean) => {
     return visits.filter((v) => {
       if (complete) {
-        console.log(v.visitEnd);
         return v.visitEnd !== null;
       } else {
         return v.visitEnd === null;
       }
     });
   };
+
+  function displayActionButton(uuid: string){
+     if (complete) return ''
+     return (
+      <Button
+        type="primary"
+        danger
+        onClick={() => endVisitHandler(uuid)}
+      >
+        End Visit
+      </Button>
+    )
+  }
 
   return (
     <TableList
@@ -71,17 +83,8 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
           visitDate: pv.visitDate,
           visitType: pv.visitType.name,
           visitEnd: pv.visitEnd,
-          action: (
-            <Button
-              type="primary"
-              danger
-              onClick={() => endVisitHandler(pv.uuid)}
-            >
-              End Visit
-            </Button>
-          ),
-        };
-      })}
+          action: displayActionButton(pv.uuid)
+      }})}
     />
   );
 };

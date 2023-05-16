@@ -27,7 +27,6 @@ export const appRouter = createBrowserRouter([
           path: 'patient/:uuid/visits',
           element: <Visits/>,
           loader: ({params})=>{
-              console.log('params',params);
               return params;
           }
         }

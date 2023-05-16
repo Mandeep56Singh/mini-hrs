@@ -80,8 +80,10 @@ const NewVisit: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       </Row>
       <Row className="visit-row">
         <Col>
-          <label>Visit Type : </label>
+          
           {selectedProgram?.length && visitTypes.length && (
+            <>
+            <label>Visit Type : </label>
             <Select
               placeholder="Select Visit"
               style={{ width: 300 }}
@@ -90,15 +92,17 @@ const NewVisit: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
                 return { value: visitType.uuid, label: visitType.name };
               })}
             />
+            </>
           )}
         </Col>
       </Row>
       <Row className="visit-row">
         <Col>
-          <Button type="primary" onClick={startVisitHandler}>
+        {selectedVisitType.length>0 && 
+        <Button type="primary" onClick={startVisitHandler}>
             {' '}
             Start Visit
-          </Button>
+          </Button>}
         </Col>
       </Row>
     </>
