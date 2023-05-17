@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NewEnrollment from './new-enrollment';
 import EnrolledPrograms from '../../components/enrollment-table/enrolled-programs';
-import { Patient } from '../../models/patient';
 import { getPrograms } from '../../resources/program-resource';
 import { Program } from '../../models/programs';
 import { Tabs } from 'antd';
@@ -13,8 +12,10 @@ import {
 import { PatientProgramEnrollment } from '../../models/program-enrollment';
 import { getLocations } from '../../resources/location-resource';
 import { Location } from '../../models/location';
+import { useLoaderData } from 'react-router-dom';
 
-const ProgramEnrollment: React.FC<{ patient: Patient }> = ({ patient }) => {
+const ProgramEnrollment: React.FC = () => {
+  const patient: { uuid: string } = useLoaderData();
   const [programs, setPrograms] = useState<Program[]>([]);
   const [enrolledPrograms, setEnrolledPrograms] = useState<
     PatientProgramEnrollment[]
