@@ -1,47 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import TableList from '../../components/table-list/table-list';
 import { getPatientVisits, endVisit } from '../../resources/visit-resource';
-import { Button } from 'antd';
+import { Button, Card, Space, Modal, Row, Col, Select } from 'antd';
 import { Visit } from '../../models/visit';
-
-const columns = [
-  {
-    title: 'VisitDate',
-    dataIndex: 'visitDate',
-    key: 'visitDate',
-  },
-  {
-    title: 'Location',
-    dataIndex: 'location',
-    key: 'location',
-  },
-  {
-    title: 'VisitType',
-    dataIndex: 'visitType',
-    key: 'visitType',
-  },
-  {
-    title: 'Visit Stop Date',
-    dataIndex: 'visitEnd',
-    key: 'action',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'action',
-    key: 'action',
-  },
-];
+import { formatDate } from '../../utils/date-formatter';
+import { getEncounterTypes } from '../../resources/encounter-types.resource';
+import { CreateEncounterPayLoad } from '../../models/encounter';
+import { EncounterType } from '../../models/encounter-type';
+import { createEncounter } from '../../resources/encounter.resource';
 
 const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
   patientUuid,
   complete,
 }) => {
   const [visits, setPatientVisits] = useState<Visit[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVisit, setSelectedVisit] = useState<Visit>();
+  const [encounterTypes, setEncounterTypes] = useState<EncounterType[]>([]);
+  const [selectedEncounterType, setSelectedEncounterType] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getPatientVisits(patientUuid).then((pv) => {
       const filteredVisits = filterCompleteVisits(pv, complete);
       setPatientVisits(filteredVisits);
+    });
+    getEncounterTypes().then((et) => {
+      setEncounterTypes(et);
     });
   }, [patientUuid, complete]);
 
@@ -60,32 +44,97 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
     });
   };
 
-  function displayActionButton(uuid: string){
-     if (complete) return ''
-     return (
-      <Button
-        type="primary"
-        danger
-        onClick={() => endVisitHandler(uuid)}
-      >
+  function displayActionButton(uuid: string) {
+    if (complete) return '';
+    return (
+      <Button type="primary" danger onClick={() => endVisitHandler(uuid)}>
         End Visit
       </Button>
-    )
+    );
   }
 
+  function startEncounter(visit: Visit, locationUuid: string) {
+    setSelectedVisit(visit);
+    setIsModalOpen(true);
+  }
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const payLoad: CreateEncounterPayLoad = {
+      locationUuid: selectedVisit?.location.uuid,
+      visitUuid: selectedVisit?.uuid,
+      encounterTypeUuid: selectedEncounterType,
+      patientUuid: patientUuid,
+      encounterDate: new Date(),
+    };
+    await createEncounter(payLoad);
+    setLoading(false);
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const encounterTypeChangeHandler = (encounterTypeUuid: string) => {
+    setSelectedEncounterType(encounterTypeUuid);
+  };
+
   return (
-    <TableList
-      cols={columns}
-      data={visits.map((pv) => {
-        return {
-          key: pv.uuid,
-          location: pv.location.name,
-          visitDate: pv.visitDate,
-          visitType: pv.visitType.name,
-          visitEnd: pv.visitEnd,
-          action: displayActionButton(pv.uuid)
-      }})}
-    />
+    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+      {visits.map((v) => {
+        return (
+          <Card
+            size="small"
+            title={`${formatDate(v.visitDate)} ( ${v.visitType.name}  - ${
+              v.location.name
+            })`}
+            actions={[
+              <Button
+                type="primary"
+                onClick={() => startEncounter(v, v.location.uuid)}
+              >
+                {' '}
+                Start Encounter
+              </Button>,
+              displayActionButton(v.uuid),
+            ]}
+          ></Card>
+        );
+      })}
+
+      <Modal
+        title="Create New Encounter"
+        open={isModalOpen}
+        footer={[
+          <Button key="back" onClick={handleCancel} danger>
+            Cancel
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={loading}
+            onClick={handleSubmit}
+          >
+            Save
+          </Button>,
+        ]}
+      >
+        <Row>
+          <Col>
+            <label>Encounter Type : </label>
+            <Select
+              placeholder="Select Encounter Type"
+              style={{ width: 300 }}
+              onChange={(e: string) => encounterTypeChangeHandler(e)}
+              options={encounterTypes.map((encounterType) => {
+                return { value: encounterType.uuid, label: encounterType.name };
+              })}
+            />
+          </Col>
+        </Row>
+      </Modal>
+    </Space>
   );
 };
 

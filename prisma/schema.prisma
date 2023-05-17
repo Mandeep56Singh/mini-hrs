@@ -118,6 +118,7 @@ model Visit {
   voided Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  encounters Encounter[]
 }
 
 model Encounter {
@@ -133,6 +134,8 @@ model Encounter {
   voided Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  visit Visit @relation(fields: [visitId],references: [id])
+  visitId Int
 }
 
 model ProgramEnrollment {

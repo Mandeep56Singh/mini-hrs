@@ -9,6 +9,8 @@ import { ProgramEnrollmentsModule } from '../program-enrollments/program-enrollm
 import { LocationsModule } from '../locations/locations.module';
 import { VisitTypesModule } from '../visit-types/visit-types.module';
 import { VisitsModule } from '../visits/visits.module';
+import { EncounterTypesModule } from '../encounter-types/encounter-types.module';
+import { EncountersModule } from '../encounters/encounters.module';
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { VisitsModule } from '../visits/visits.module';
     ProgramEnrollmentsModule,
     LocationsModule,
     VisitTypesModule,
-    VisitsModule
+    VisitsModule,
+    EncounterTypesModule,
+    EncountersModule
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
