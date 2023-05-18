@@ -93,4 +93,22 @@ export class ProgramEnrollmentsService {
       },
     });
   }
+  findActivePatientEnrollmentsCount(patientId:number){
+     return this.prismaService.programEnrollment.count({
+      where:{
+        patientId: patientId,
+        endDate:{
+          not: null
+        }
+      }
+     });
+  }
+  findCompletedPatientEnrollmentsCount(patientId:number){
+    return this.prismaService.programEnrollment.count({
+     where:{
+       patientId: patientId,
+       endDate: null
+     }
+    });
+ }
 }

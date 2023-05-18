@@ -143,4 +143,11 @@ export class VisitsService {
       },
     });
   }
+  findPatientVisitsCount(patientId: number){
+      return this.prismaService.visit.count({
+        where:{
+          patientId: patientId
+        }
+       });
+  }
 }

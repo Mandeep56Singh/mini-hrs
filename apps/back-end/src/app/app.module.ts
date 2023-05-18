@@ -11,6 +11,7 @@ import { VisitTypesModule } from '../visit-types/visit-types.module';
 import { VisitsModule } from '../visits/visits.module';
 import { EncounterTypesModule } from '../encounter-types/encounter-types.module';
 import { EncountersModule } from '../encounters/encounters.module';
+import { PatientStatisticsModule } from '../patient-statistics/patient-statistics.module';
 
 @Module({
   imports: [
@@ -21,9 +22,11 @@ import { EncountersModule } from '../encounters/encounters.module';
     VisitTypesModule,
     VisitsModule,
     EncounterTypesModule,
-    EncountersModule
+    EncountersModule,
+    PatientStatisticsModule
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
+  exports:[PrismaService]
 })
 export class AppModule {}

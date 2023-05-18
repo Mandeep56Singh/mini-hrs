@@ -43,4 +43,11 @@ export class EncountersService {
             }
          });
     }
+    findPatientEncountersCount(patientId: number){
+         return this.prismaService.encounter.count({
+            where:{
+                patientId: patientId
+            }
+         });
+    }
 }
