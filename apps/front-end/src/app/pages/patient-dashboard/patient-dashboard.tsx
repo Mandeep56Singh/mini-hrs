@@ -5,7 +5,7 @@ import { MenuProps } from 'antd';
 import { Link } from 'react-router-dom';
 
 const PatientDashboard: React.FC = () => {
-  const data: { uuid: string } = useLoaderData();
+  const data = useLoaderData() as { uuid: string };
   const sideMenuItems: MenuProps['items'] = [
     {
       key: 'dashboard',

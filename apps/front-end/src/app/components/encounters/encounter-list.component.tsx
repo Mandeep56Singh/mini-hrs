@@ -33,7 +33,6 @@ const EncounterList: React.FC<{
   encounters: Encounter[];
 }> = ({ encounters }) => {
   const onClickHandler = async (encounterUuid: string) => {
-    console.log('encounter', encounterUuid);
   };
 
   console.dir(encounters,{depth: null});
