@@ -41,25 +41,25 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
     });
   };
 
-  function displayActionButton(uuid: string) {
+  function displayActionButton(v:Visit) {
     if (complete) return '';
     return (
       <>
       <Button
       type="primary"
-      onClick={() => startEncounter(v, v.location.uuid)}
+      onClick={() => startEncounter(v)}
     >
       +
     </Button>
     { ' ' }
-      <Button type="primary" danger onClick={() => endVisitHandler(uuid)}>
+      <Button type="primary" danger onClick={() => endVisitHandler(v.uuid)}>
         End Visit
       </Button>
       </>
     );
   }
 
-  function startEncounter(visit: Visit, locationUuid: string) {
+  function startEncounter(visit: Visit) {
     setSelectedVisit(visit);
     setIsModalOpen(true);
   }
@@ -77,7 +77,7 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
                   <Descriptions.Item label="Visit">{v.visitType.name}</Descriptions.Item>
                   <Descriptions.Item label="Location">{v.location.name}</Descriptions.Item>
               </Descriptions>
-              { displayActionButton(v.uuid)}
+              { displayActionButton(v)}
           {v.encounters.length> 0 && <EncounterList encounters={v.encounters} />}
          
           </Card>

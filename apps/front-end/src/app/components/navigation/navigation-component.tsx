@@ -30,10 +30,6 @@ export function NavigationComponent(props: NavigationComponentProps) {
       key: 'settings',
     },
     {
-      label: <Link to="/login">Login</Link>,
-      key: 'login',
-    },
-    {
       label: <Link to="/">Logout</Link>,
       key: 'logout',
     },
