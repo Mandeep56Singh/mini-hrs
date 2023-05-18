@@ -8,6 +8,16 @@ const PatientDashboard: React.FC = () => {
   const data: { uuid: string } = useLoaderData();
   const sideMenuItems: MenuProps['items'] = [
     {
+      key: 'dashboard',
+      label: 'Dashboard',
+      icon: ''
+    },
+    {
+      key: 'patient-info',
+      label: 'Patient Info',
+      icon: ''
+    },
+    {
       key: 'visits',
       label: 'Visits',
       icon: ''

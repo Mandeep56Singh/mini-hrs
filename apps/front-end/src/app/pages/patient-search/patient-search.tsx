@@ -6,6 +6,7 @@ import { ColumnsType } from 'antd/es/table';
 import TableList from '../../components/table-list/table-list';
 import { PatientIdentifier } from '../../models/patient';
 import { Link } from 'react-router-dom';
+import { getYearMonthDate } from '../../utils/date-formatter';
 
 const { Search } = Input;
 interface DataType {
@@ -22,7 +23,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'identifier',
     render: (text: string, record: DataType) => {
       return (
-        <Link to={`/patient-dashboard/${record?.patientUuid}/landing`}>
+        <Link to={`/patient-dashboard/${record?.patientUuid}/dashboard`}>
           {text}
         </Link>
       );
@@ -55,7 +56,7 @@ const PatientSearch: React.FC = () => {
       return {
         key: result?.id,
         identifier: result?.identifier,
-        dob: result.patient?.dob,
+        dob: getYearMonthDate(result.patient?.dob),
         gender: result.patient?.gender,
         patientUuid: result.patient?.uuid,
       };

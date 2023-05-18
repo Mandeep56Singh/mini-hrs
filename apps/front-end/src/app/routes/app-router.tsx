@@ -7,6 +7,7 @@ import PatientLanding from "../pages/patient-landing/patient-landing";
 import Visits from "../pages/visits/visits";
 import PatientDashboard from "../pages/patient-dashboard/patient-dashboard";
 import ProgramEnrollment from "../pages/program-enrollment/program-enrollment";
+import PatientInfo from "../components/patient-info/patient-info";
 
 export const appRouter = createBrowserRouter([
     {
@@ -28,8 +29,15 @@ export const appRouter = createBrowserRouter([
       },
       children: [
         {
-          path: ':uuid/landing',
+          path: ':uuid/dashboard',
           element: <PatientLanding/>,
+          loader: ({params})=>{
+              return params;
+          }
+        },
+        {
+          path: ':uuid/patient-info',
+          element: <PatientInfo />,
           loader: ({params})=>{
               return params;
           }

@@ -18,11 +18,7 @@ export function NavigationComponent(props: NavigationComponentProps) {
       key: 'home',
     },
     {
-      label: <Link to="/patient-dashboard">Patient Dashboard</Link>,
-      key: 'patient-dashboard',
-    },
-    {
-      label: <Link to="/patient-search">Patient Search</Link>,
+      label: <Link to="/patient-search">Search</Link>,
       key: 'patient-search',
     },
     {

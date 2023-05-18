@@ -1,21 +1,15 @@
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme, MenuProps } from 'antd';
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import NavigationComponent from '../navigation/navigation-component';
 import { Outlet } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { ItemType } from 'antd/es/menu/hooks/useItems';
+import './layout-component.css';
 
 const { Header, Content, Sider } = Layout;
 
-const items2: MenuProps['items'] = ['Visits', 'Enrollment'].map((menuItem) => {
-  return {
-    key: menuItem,
-    icon: '',
-    label: <Link to="visits">{menuItem}</Link>,
-  };
-});
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface SideMenuItemsProps{}
 
-export const LayoutComponent: React.FC = ({ sideMenuItems }) => {
+export const LayoutComponent: React.FC<{sideMenuItems: SideMenuItemsProps}> = ({ sideMenuItems }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
