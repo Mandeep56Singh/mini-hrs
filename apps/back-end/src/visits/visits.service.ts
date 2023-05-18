@@ -28,6 +28,24 @@ export class VisitsService {
             name: true,
           },
         },
+        encounters:{
+          select:{
+            uuid: true,
+            encounterDate: true,
+            location:{
+              select:{
+                uuid: true,
+                name: true
+              }
+            },
+            encounterType:{
+              select:{
+                name: true,
+                uuid: true
+              }
+            }
+          }
+        }
       },
     });
   }
@@ -84,6 +102,24 @@ export class VisitsService {
             name: true,
           },
         },
+        encounters:{
+          select:{
+            uuid: true,
+            encounterDate: true,
+            location:{
+              select:{
+                uuid: true,
+                name: true
+              }
+            },
+            encounterType:{
+              select:{
+                name: true,
+                uuid: true
+              }
+          }
+          }
+        }
       },
     });
   }

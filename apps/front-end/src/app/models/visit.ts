@@ -1,3 +1,4 @@
+import { Encounter } from "./encounter";
 export interface CreateVisitPayload {
   visitDate: Date;
   patientUuid: string;
@@ -19,7 +20,8 @@ export interface Visit {
   location: {
     uuid: string;
     name: string;
-  };
+  },
+  encounters: Encounter[]
 }
 
 export interface CompleteVisitPayload{

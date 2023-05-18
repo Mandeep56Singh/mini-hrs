@@ -4,6 +4,7 @@ import TableList from '../table-list/table-list';
 import { Button } from 'antd';
 import { CompleteEnrollmentPayload } from '../../models/program-enrollment';
 import { completeProgram } from '../../resources/program-enrollment.resource';
+import { formatDate } from '../../utils/date-formatter';
 
 const columns = [
   {
@@ -52,12 +53,12 @@ const EnrolledPrograms: React.FC<{
           key: patientProgram.uuid,
           program: patientProgram.program.name,
           location: patientProgram.location.name,
-          startDate: patientProgram.startDate,
-          endDate: patientProgram.endDate,
+          startDate: formatDate(patientProgram.startDate),
+          endDate: formatDate(patientProgram.endDate),
           action: (
             <Button
-              type="primary"
-              danger
+              type="default"
+             
               onClick={() => onClickHandler(patientProgram.uuid)}
             >
               Complete

@@ -11,7 +11,7 @@ const Visits: React.FC = () => {
   const items: TabsProps['items'] = [
     {
       key: 'newVisit',
-      label: `New Visit+`,
+      label: `New Visit`,
       children: <NewVisit patientUuid={data.uuid} />,
     },
     {
@@ -27,7 +27,7 @@ const Visits: React.FC = () => {
   ];
   return (
     <Row>
-      <Col>
+      <Col span={22}>
         <h4>Visits</h4>
         <Tabs defaultActiveKey="1" items={items} />
       </Col>

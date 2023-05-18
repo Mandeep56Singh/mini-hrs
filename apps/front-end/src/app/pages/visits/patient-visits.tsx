@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { getPatientVisits, endVisit } from '../../resources/visit-resource';
-import { Button, Card, Space, Modal, Row, Col, Select } from 'antd';
+import { Button, Card, Space } from 'antd';
 import { Visit } from '../../models/visit';
 import { formatDate } from '../../utils/date-formatter';
-import { getEncounterTypes } from '../../resources/encounter-types.resource';
-import { CreateEncounterPayLoad } from '../../models/encounter';
-import { EncounterType } from '../../models/encounter-type';
-import { createEncounter } from '../../resources/encounter.resource';
+import CreateEnconterModal from '../../components/encounters/create-encounter-modal';
+import EncounterList from '../../components/encounters/encounter-list.component';
+import { Descriptions } from 'antd';
 
 const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
   patientUuid,
   complete,
 }) => {
   const [visits, setPatientVisits] = useState<Visit[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVisit, setSelectedVisit] = useState<Visit>();
-  const [encounterTypes, setEncounterTypes] = useState<EncounterType[]>([]);
-  const [selectedEncounterType, setSelectedEncounterType] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     getPatientVisits(patientUuid).then((pv) => {
       const filteredVisits = filterCompleteVisits(pv, complete);
       setPatientVisits(filteredVisits);
-    });
-    getEncounterTypes().then((et) => {
-      setEncounterTypes(et);
     });
   }, [patientUuid, complete]);
 
@@ -47,9 +44,18 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
   function displayActionButton(uuid: string) {
     if (complete) return '';
     return (
+      <>
+      <Button
+      type="primary"
+      onClick={() => startEncounter(v, v.location.uuid)}
+    >
+      +
+    </Button>
+    { ' ' }
       <Button type="primary" danger onClick={() => endVisitHandler(uuid)}>
         End Visit
       </Button>
+      </>
     );
   }
 
@@ -58,82 +64,32 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
     setIsModalOpen(true);
   }
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    const payLoad: CreateEncounterPayLoad = {
-      locationUuid: selectedVisit?.location.uuid,
-      visitUuid: selectedVisit?.uuid,
-      encounterTypeUuid: selectedEncounterType,
-      patientUuid: patientUuid,
-      encounterDate: new Date(),
-    };
-    await createEncounter(payLoad);
-    setLoading(false);
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const encounterTypeChangeHandler = (encounterTypeUuid: string) => {
-    setSelectedEncounterType(encounterTypeUuid);
-  };
-
   return (
     <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
       {visits.map((v) => {
         return (
           <Card
+            key={v.uuid}
             size="small"
-            title={`${formatDate(v.visitDate)} ( ${v.visitType.name}  - ${
-              v.location.name
-            })`}
-            actions={[
-              <Button
-                type="primary"
-                onClick={() => startEncounter(v, v.location.uuid)}
-              >
-                {' '}
-                Start Encounter
-              </Button>,
-              displayActionButton(v.uuid),
-            ]}
-          ></Card>
+          >
+              <Descriptions>
+                  <Descriptions.Item label="Date">{formatDate(v.visitDate)}</Descriptions.Item>
+                  <Descriptions.Item label="Visit">{v.visitType.name}</Descriptions.Item>
+                  <Descriptions.Item label="Location">{v.location.name}</Descriptions.Item>
+              </Descriptions>
+              { displayActionButton(v.uuid)}
+          {v.encounters.length> 0 && <EncounterList encounters={v.encounters} />}
+         
+          </Card>
         );
       })}
 
-      <Modal
-        title="Create New Encounter"
-        open={isModalOpen}
-        footer={[
-          <Button key="back" onClick={handleCancel} danger>
-            Cancel
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={loading}
-            onClick={handleSubmit}
-          >
-            Save
-          </Button>,
-        ]}
-      >
-        <Row>
-          <Col>
-            <label>Encounter Type : </label>
-            <Select
-              placeholder="Select Encounter Type"
-              style={{ width: 300 }}
-              onChange={(e: string) => encounterTypeChangeHandler(e)}
-              options={encounterTypes.map((encounterType) => {
-                return { value: encounterType.uuid, label: encounterType.name };
-              })}
-            />
-          </Col>
-        </Row>
-      </Modal>
+      <CreateEnconterModal
+        patientUuid={patientUuid}
+        visit={selectedVisit}
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+      />
     </Space>
   );
 };

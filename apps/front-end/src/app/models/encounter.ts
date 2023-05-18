@@ -8,6 +8,7 @@ export interface CreateEncounterPayLoad{
 
 export interface Encounter{
     uuid: string;
+    encounterDate: string;
     location:{
         name:string;
         uuid: string;
