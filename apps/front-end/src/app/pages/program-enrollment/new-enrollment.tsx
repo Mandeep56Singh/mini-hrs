@@ -3,15 +3,17 @@ import { Button, Select, Col, Row } from 'antd';
 import { Program } from '../../models/programs';
 import { Location } from '../../models/location';
 import { enroll } from '../../resources/program-enrollment.resource';
-import { ProgramEnrollmentPayload } from '../../models/program-enrollment';
+import { ProgramEnrollmentPayload, PatientProgramEnrollment } from '../../models/program-enrollment';
 
 const NewEnrollment: React.FC<{
   programs: Program[];
   locations: Location[];
   patientUuid: string;
-}> = ({ programs, locations, patientUuid }) => {
+  onNewEnrollment: (e:PatientProgramEnrollment) => void;
+}> = ({ programs, locations, patientUuid, onNewEnrollment }) => {
   const [selectedProgram, setSelectedProgram] = useState<string>('');
   const [selectedLocation, setSelectedLocation] = useState<string>('');
+
   const enrollHandler = async () => {
     const payLoad: ProgramEnrollmentPayload = {
       programUuid: selectedProgram,
@@ -19,18 +21,14 @@ const NewEnrollment: React.FC<{
       patientUuid: patientUuid,
     };
 
-    await enroll(payLoad);
-    resetControls();
+    const result = await enroll(payLoad);
+    onNewEnrollment(result);
   };
   const programChangeHandler = (v: string) => {
     setSelectedProgram(v);
   };
   const locationChangeHandler = (v: string) => {
     setSelectedLocation(v);
-  };
-  const resetControls = () => {
-    setSelectedLocation('');
-    setSelectedProgram('');
   };
   return (
     <>

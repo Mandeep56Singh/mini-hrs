@@ -32,10 +32,8 @@ const columns = [
 const EncounterList: React.FC<{
   encounters: Encounter[];
 }> = ({ encounters }) => {
-  const onClickHandler = async (encounterUuid: string) => {
-  };
+  const onClickHandler =  (encounterUuid: string): void => {};
 
-  console.dir(encounters,{depth: null});
 
   return (
     <TableList

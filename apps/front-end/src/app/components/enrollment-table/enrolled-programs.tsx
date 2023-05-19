@@ -35,14 +35,15 @@ const columns = [
 ];
 
 const EnrolledPrograms: React.FC<{
-  patientPrograms: PatientProgramEnrollment[];
-}> = ({ patientPrograms }) => {
+  patientPrograms: PatientProgramEnrollment[]; onComplete: (completedEnrollment: PatientProgramEnrollment)=>void
+}> = ({ patientPrograms, onComplete}) => {
   const onClickHandler = async (enrollmentUuid: string) => {
     const payload: CompleteEnrollmentPayload = {
       endDate: new Date(),
       enrollmentUuid: enrollmentUuid,
     };
-    await completeProgram(payload);
+    const result = await completeProgram(payload);
+    onComplete(result);
   };
 
   return (

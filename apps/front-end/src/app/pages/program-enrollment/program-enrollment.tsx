@@ -15,7 +15,7 @@ import { Location } from '../../models/location';
 import { useLoaderData } from 'react-router-dom';
 
 const ProgramEnrollment: React.FC = () => {
-  const patient: { uuid: string } = useLoaderData();
+  const patient = useLoaderData() as { uuid: string };
   const [programs, setPrograms] = useState<Program[]>([]);
   const [enrolledPrograms, setEnrolledPrograms] = useState<
     PatientProgramEnrollment[]
@@ -24,6 +24,16 @@ const ProgramEnrollment: React.FC = () => {
     PatientProgramEnrollment[]
   >([]);
   const [locations, setLocations] = useState<Location[]>([]);
+  const [newEnrollment,setNewEnrollment] = useState<PatientProgramEnrollment>();
+  const [completedEnrollment,setCompletedEnrollment] = useState<PatientProgramEnrollment>();
+
+  const newEnrollmentHandler = (newEnrollment: PatientProgramEnrollment)=>{
+    setNewEnrollment(newEnrollment);
+  };
+  const completeEnrollentHandler = (completedEnrollment: PatientProgramEnrollment)=>{
+     setCompletedEnrollment(completedEnrollment);
+  }
+
   const items: TabsProps['items'] = [
     {
       key: 'enroll',
@@ -33,25 +43,34 @@ const ProgramEnrollment: React.FC = () => {
           programs={programs}
           locations={locations}
           patientUuid={patient.uuid}
+          onNewEnrollment = { newEnrollmentHandler}
         />
       ),
     },
     {
       key: 'enrolled-programs',
       label: `Enrolled Programs`,
-      children: <EnrolledPrograms patientPrograms={enrolledPrograms} />,
+      children: <EnrolledPrograms patientPrograms={enrolledPrograms} onComplete={ completeEnrollentHandler } />,
     },
     {
       key: 'completed-programs',
       label: `Completed Programs`,
-      children: <EnrolledPrograms patientPrograms={completedPrograms} />,
+      children: <EnrolledPrograms patientPrograms={completedPrograms} onComplete={ completeEnrollentHandler }/>,
     },
   ];
+
+ 
 
   useEffect(() => {
     getPrograms().then((results) => {
       setPrograms(results);
     });
+    getLocations().then((locations) => {
+      setLocations(locations);
+    });
+  }, []);
+
+  useEffect(() => {
     getEnrolledPrograms(patient.uuid).then(
       (enrolledPrograms: PatientProgramEnrollment[]) => {
         setEnrolledPrograms(enrolledPrograms);
@@ -60,10 +79,7 @@ const ProgramEnrollment: React.FC = () => {
     getCompletedPrograms(patient.uuid).then((completedPrograms) => {
       setCompletedPrograms(completedPrograms);
     });
-    getLocations().then((locations) => {
-      setLocations(locations);
-    });
-  }, [patient]);
+  }, [patient,newEnrollment,completedEnrollment]);
   return (
     <>
       <h4>Program Enrollments</h4>
