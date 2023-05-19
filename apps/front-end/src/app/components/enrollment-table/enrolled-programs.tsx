@@ -56,7 +56,7 @@ const EnrolledPrograms: React.FC<{
           location: patientProgram.location.name,
           startDate: formatDate(patientProgram.startDate),
           endDate: formatDate(patientProgram.endDate),
-          action: (
+          action: patientProgram?.endDate === null ? (
             <Button
               type="default"
              
@@ -64,7 +64,7 @@ const EnrolledPrograms: React.FC<{
             >
               Complete
             </Button>
-          ),
+          ) : '',
         };
       })}
     />
