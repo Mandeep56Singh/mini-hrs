@@ -38,11 +38,25 @@ export class PatientsService {
       where: {
         identifier: identifier,
       },
-      include: {
+      select:{
+        identifier: true,
+        uuid: true,
         patient: {
-          include:{
-            patientNames: true,
-            patientIdentifiers: true
+          select:{
+           dob: true,
+           gender: true,
+           uuid: true,
+            patientNames:{
+              select:{
+                firstName: true,
+                lastName: true,
+              }
+            },
+            patientIdentifiers:{
+               select:{
+                 identifier: true
+               }
+            }
           }
         }
       },

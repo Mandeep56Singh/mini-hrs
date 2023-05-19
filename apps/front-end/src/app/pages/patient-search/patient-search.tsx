@@ -4,9 +4,12 @@ import { Input } from 'antd';
 import { patientSearch } from '../../resources/patient-search.resource';
 import { ColumnsType } from 'antd/es/table';
 import TableList from '../../components/table-list/table-list';
-import { PatientIdentifier } from '../../models/patient';
 import { Link } from 'react-router-dom';
 import { getYearMonthDate } from '../../utils/date-formatter';
+import {
+  PatientSearchResponse,
+  PatientSearchTableData,
+} from '../../models/patient-search';
 
 const { Search } = Input;
 interface DataType {
@@ -41,21 +44,24 @@ const columns: ColumnsType<DataType> = [
 
 const PatientSearch: React.FC = () => {
   const [searchString, setSearchString] = useState('');
-  const [searchResults, setSearchResults] = useState<PatientIdentifier[]>([]);
-  const [tableData, setTableData] = useState([]);
+  const [_, setSearchResults] = useState<PatientSearchResponse[]>([]);
+  const [tableData, setTableData] = useState<PatientSearchTableData[]>([]);
   const onChangeHandler = (s: string) => {
     setSearchString(s);
   };
   const onEnterHandler = async () => {
-    const results: PatientIdentifier[] = await patientSearch(searchString);
+    const results: PatientSearchResponse[] = await patientSearch(searchString);
     setSearchResults(results);
     processTableData(results);
   };
-  const processTableData = (results) => {
+  const processTableData = (results: PatientSearchResponse[]) => {
     const data = results.map((result) => {
       return {
-        key: result?.id,
-        identifier: result?.identifier,
+        key: result?.uuid,
+        identifier:
+          result?.patient.patientIdentifiers.length > 0
+            ? result?.patient.patientIdentifiers[0]?.identifier
+            : '',
         dob: getYearMonthDate(result.patient?.dob),
         gender: result.patient?.gender,
         patientUuid: result.patient?.uuid,

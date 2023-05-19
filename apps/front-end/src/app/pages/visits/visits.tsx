@@ -64,7 +64,7 @@ const Visits: React.FC = () => {
       key: 'completed-visits',
       label: `Completed Visits`,
       children: <PatientVisits 
-         patientVisits={filterCompleteVisits(visits,false)} 
+         patientVisits={filterCompleteVisits(visits,true)} 
          complete={true} 
          patientUuid={data.uuid}
          onNewEncounter = { newEncounterHandler }

@@ -86,6 +86,9 @@ export class VisitsService {
       where: {
         patientId: patientId,
       },
+      orderBy:{
+        visitDate: 'desc'
+      },
       select: {
         uuid: true,
         visitDate: true,
