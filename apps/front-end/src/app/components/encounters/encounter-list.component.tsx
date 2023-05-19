@@ -32,7 +32,9 @@ const columns = [
 const EncounterList: React.FC<{
   encounters: Encounter[];
 }> = ({ encounters }) => {
-  const onClickHandler =  (encounterUuid: string): void => {};
+  const onClickHandler =  (encounterUuid: string): void => {
+    return;
+  };
 
 
   return (

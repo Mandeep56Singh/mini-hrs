@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Row, Col, Select } from 'antd';
 import { createEncounter } from '../../resources/encounter.resource';
-import { CreateEncounterPayLoad } from '../../models/encounter';
+import { CreateEncounterPayLoad, Encounter } from '../../models/encounter';
 import { EncounterType } from '../../models/encounter-type';
 import { getEncounterTypes } from '../../resources/encounter-types.resource';
 
@@ -15,6 +15,7 @@ interface createEncounterProps {
   };
   isModalOpen: boolean;
   handleCancel: () => void;
+  onNewEncounter: (ne: Encounter)=>void
 }
 
 const CreateEnconterModal: React.FC<createEncounterProps> = ({
@@ -22,6 +23,7 @@ const CreateEnconterModal: React.FC<createEncounterProps> = ({
   visit,
   isModalOpen,
   handleCancel,
+  onNewEncounter
 }) => {
   const [loading, setLoading] = useState(false);
   const [selectedEncounterType, setSelectedEncounterType] = useState('');
@@ -42,7 +44,8 @@ const CreateEnconterModal: React.FC<createEncounterProps> = ({
       patientUuid: patientUuid,
       encounterDate: new Date(),
     };
-    await createEncounter(payLoad);
+    const newEncounter = await createEncounter(payLoad);
+    onNewEncounter(newEncounter);
     setLoading(false);
     handleCancel();
   };

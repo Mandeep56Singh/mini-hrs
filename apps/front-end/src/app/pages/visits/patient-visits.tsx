@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { getPatientVisits, endVisit } from '../../resources/visit-resource';
+import React, { useState } from 'react';
+
 import { Button, Card, Space } from 'antd';
 import { Visit } from '../../models/visit';
 import { formatDate } from '../../utils/date-formatter';
 import CreateEnconterModal from '../../components/encounters/create-encounter-modal';
 import EncounterList from '../../components/encounters/encounter-list.component';
 import { Descriptions } from 'antd';
+import { endVisit } from '../../resources/visit-resource';
+import { Encounter } from '../../models/encounter';
 
-const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
-  patientUuid,
-  complete,
+const PatientVisits: React.FC<{ 
+  patientVisits: Visit[];
+  complete: boolean;
+  patientUuid: string;
+  onNewEncounter: (ne: Encounter)=>void;
+  onCompleteVisit: (cv: Visit)=> void;
+  }> = ({
+  patientVisits, complete, patientUuid, onNewEncounter, onCompleteVisit
 }) => {
-  const [visits, setPatientVisits] = useState<Visit[]>([]);
+ 
   const [selectedVisit, setSelectedVisit] = useState<Visit>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -19,27 +26,15 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
-    getPatientVisits(patientUuid).then((pv) => {
-      const filteredVisits = filterCompleteVisits(pv, complete);
-      setPatientVisits(filteredVisits);
-    });
-  }, [patientUuid, complete]);
 
-  const endVisitHandler = (visitUuid: string) => {
+
+  const endVisitHandler = async (visitUuid: string) => {
     const visitEnd = new Date();
-    endVisit(visitUuid, visitEnd);
+    const completedVisit = await endVisit(visitUuid, visitEnd);
+    onCompleteVisit(completedVisit);
   };
 
-  const filterCompleteVisits = (visits: Visit[], complete: boolean) => {
-    return visits.filter((v) => {
-      if (complete) {
-        return v.visitEnd !== null;
-      } else {
-        return v.visitEnd === null;
-      }
-    });
-  };
+
 
   function displayActionButton(v:Visit) {
     if (complete) return '';
@@ -66,7 +61,7 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
 
   return (
     <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-      {visits.map((v) => {
+      {patientVisits.map((v) => {
         return (
           <Card
             key={v.uuid}
@@ -89,6 +84,7 @@ const PatientVisits: React.FC<{ patientUuid: string; complete: boolean }> = ({
         visit={selectedVisit}
         isModalOpen={isModalOpen}
         handleCancel={handleCancel}
+        onNewEncounter = { onNewEncounter }
       />
     </Space>
   );

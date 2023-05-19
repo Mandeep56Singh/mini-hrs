@@ -7,7 +7,7 @@ function getBaseUrl() {
 
 export async function createEncounter(
   payload: CreateEncounterPayLoad
-): Promise<Encounter[]> {
+): Promise<Encounter> {
   const url = getBaseUrl();
   const newVisit = await fetch(url, {
     method: 'POST',

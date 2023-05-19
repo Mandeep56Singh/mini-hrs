@@ -8,9 +8,9 @@ import { VisitType } from '@prisma/client';
 import { getProgramVisitTypes } from '../../resources/visit-types.resouorce';
 import './visits.css';
 import { startVisit } from '../../resources/visit-resource';
-import { CreateVisitPayload } from '../../models/visit';
+import { CreateVisitPayload, Visit } from '../../models/visit';
 
-const NewVisit: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+const NewVisit: React.FC<{ patientUuid: string; onNewVisitCreated: (nv:Visit)=> void }> = ({ patientUuid, onNewVisitCreated }) => {
   const [locations, setLocations] = useState<Location[]>([]);
   const [programs, setPrograms] = useState<Program[]>([]);
   const [visitTypes, setVisitTypes] = useState<VisitType[]>([]);
@@ -39,7 +39,7 @@ const NewVisit: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const visitTypeChangeHandler = (e: string) => {
     setSelectedVisitType(e);
   };
-  const startVisitHandler = () => {
+  const startVisitHandler = async () => {
     const newVisitPayload: CreateVisitPayload = {
       visitDate: new Date(),
       locationUuid: selectedLocation,
@@ -47,7 +47,8 @@ const NewVisit: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       patientUuid: patientUuid,
     };
 
-    startVisit(newVisitPayload);
+    const newVisit = await startVisit(newVisitPayload);
+    onNewVisitCreated(newVisit);
   };
 
   return (
