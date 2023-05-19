@@ -37,7 +37,7 @@ export class ProgramEnrollmentsService {
         programId: body.programId,
         patientId: body.patientId,
         locationId: body.locationId,
-        startDate: new Date(body.startDate),
+        startDate: body.startDate
       },
     });
   }
