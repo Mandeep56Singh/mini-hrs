@@ -93,15 +93,6 @@ const PatientSearch: React.FC = () => {
         </Col>
       </Row>
       <Row>
-        <Col span={14} offset={5}>
-          {tableData.length ? (
-            <TableList cols={columns} data={tableData} />
-          ) : (
-            ''
-          )}
-        </Col>
-      </Row>
-      <Row>
          <Col span={12} offset={6}>
           <br></br>
            <Button
@@ -115,6 +106,15 @@ const PatientSearch: React.FC = () => {
           handleCancel={cancelAddPatientModalHandler}
           />
          </Col>
+      </Row>
+      <Row>
+        <Col span={12} offset={6}>
+          {tableData.length ? (
+            <TableList cols={columns} data={tableData} />
+          ) : (
+            ''
+          )}
+        </Col>
       </Row>
     </>
   );
