@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col } from 'antd';
-import { Input } from 'antd';
+import { Input, Button, Space } from 'antd';
 import { patientSearch } from '../../resources/patient-search.resource';
 import { ColumnsType } from 'antd/es/table';
 import TableList from '../../components/table-list/table-list';
@@ -10,6 +10,7 @@ import {
   PatientSearchResponse,
   PatientSearchTableData,
 } from '../../models/patient-search';
+import AddPatientModal from '../../components/patient/add-patient-modal';
 
 const { Search } = Input;
 interface DataType {
@@ -46,6 +47,7 @@ const PatientSearch: React.FC = () => {
   const [searchString, setSearchString] = useState('');
   const [_, setSearchResults] = useState<PatientSearchResponse[]>([]);
   const [tableData, setTableData] = useState<PatientSearchTableData[]>([]);
+  const [showAddPatientModal, setShowAddPatientModal] = useState<boolean>(false);
   const onChangeHandler = (s: string) => {
     setSearchString(s);
   };
@@ -70,6 +72,12 @@ const PatientSearch: React.FC = () => {
 
     setTableData(data);
   };
+  const cancelAddPatientModalHandler = ()=>{
+     setShowAddPatientModal(false);
+  };
+  const addPatientHandler = ()=>{
+    setShowAddPatientModal(true);
+  }
   return (
     <>
       <Row>
@@ -92,6 +100,21 @@ const PatientSearch: React.FC = () => {
             ''
           )}
         </Col>
+      </Row>
+      <Row>
+         <Col span={12} offset={6}>
+          <br></br>
+           <Button
+           type="primary"
+           onClick={addPatientHandler}
+           >
+            +Add Patient
+          </Button>
+          <AddPatientModal 
+          isModalOpen={showAddPatientModal}
+          handleCancel={cancelAddPatientModalHandler}
+          />
+         </Col>
       </Row>
     </>
   );

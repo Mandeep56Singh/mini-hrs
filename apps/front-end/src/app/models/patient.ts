@@ -32,3 +32,15 @@ export interface PatientIdentifier {
   updatedAt: string;
   patient?: Patient;
 }
+
+export interface CreatePatientPayload {
+  dob: string;
+  gender: string;
+  patientNames: {
+    firstName: string;
+    lastName: string;
+  };
+  patientIdentifiers: {
+    identifier: string;
+  };
+}
