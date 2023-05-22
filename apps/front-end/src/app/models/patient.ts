@@ -1,36 +1,21 @@
 export interface Patient {
-  id: number;
+  uuid: string;
   dob: string;
   gender: string;
-  uuid: string;
-  voided: boolean;
-  createdAt: string;
-  updatedAt: string;
-  patientNames: PatientNames[];
-  patientIdentifiers: PatientIdentifier[];
+  patientNames: { uuid: string; firstName: string; lastName: string;}[];
+  patientIdentifiers: { uuid: string; identifier: string;}[];
 }
 
 export interface PatientNames {
-  id: number;
+  uuid: string;
   firstName: string;
   lastName: string;
-  patientId: number;
-  uuid: string;
-  voided: boolean;
-  createdAt: string;
-  updatedAt: string;
-  patient?: Patient;
 }
 
 export interface PatientIdentifier {
-  id: number;
+  uuid: string;
   identifier: string;
   patientId: number;
-  uuid: string;
-  voided: boolean;
-  createdAt: string;
-  updatedAt: string;
-  patient?: Patient;
 }
 
 export interface CreatePatientPayload {
