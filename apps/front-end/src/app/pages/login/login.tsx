@@ -1,32 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Row } from 'antd';
 import { Button, Form, Input } from 'antd';
 import styles from './login.module.css';
 import { Card } from 'antd';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { signIn } from '../../resources/auth.resource';
+import { Login } from '../../models/auth';
+import { setItem } from '../../resources/local-storage.resource';
+import { Alert } from 'antd';
+import { AlertMessage } from '../../models/alert-message';
 
-const Login: React.FC = ()=>{
-    const navigate = useNavigate();
-    const onFinish = (values: any) => {
-        redirectToHomePage();
-     };
-      
-      const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [loginMessage, setLoginMessage] = useState<AlertMessage>();
+  const onFinish = async (values: Login) => {
+    const newLogin = await signIn(values);
+    if ('error' in newLogin) {
+      const msg: AlertMessage = {
+        message: newLogin.message,
+        type: 'error',
       };
-      
-    const redirectToHomePage = ()=>{
-        console.log('redirect to home page');
-        return navigate("/");
-    };
-    return(
+      setLoginMessage(msg);
+    } else {
+      setItem('access_token', newLogin.access_token);
+      redirectToHomePage();
+    }
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const redirectToHomePage = () => {
+    return navigate('/');
+  };
+  return (
     <Row className={styles.loginRow}>
-     <Col span={8} offset={7}>
-      <Card>
-            <h2 style={{
-                textAlign: 'center'
-            }}>Log In</h2>
-            <Form
+      <Col span={8} offset={7}>
+        <Card>
+          {loginMessage && loginMessage.message.length > 0 ? (
+            <Alert
+              message={loginMessage.message}
+              type={loginMessage.type}
+              showIcon
+            />
+          ) : (
+            ''
+          )}
+          <h2
+            style={{
+              textAlign: 'center',
+            }}
+          >
+            Log In
+          </h2>
+          <Form
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
@@ -35,33 +63,37 @@ const Login: React.FC = ()=>{
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
-        >
+          >
             <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+              label="Username"
+              name="username"
+              rules={[
+                { required: true, message: 'Please input your username!' },
+              ]}
             >
-            <Input />
+              <Input />
             </Form.Item>
 
             <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: 'Please input your password!' },
+              ]}
             >
-            <Input.Password />
+              <Input.Password />
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit">
                 Login
-            </Button>
+              </Button>
             </Form.Item>
-        </Form>
-    </Card>
-  </Col>
-  </Row>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
-export default Login;
+export default LoginPage;
