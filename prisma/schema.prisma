@@ -154,3 +154,15 @@ model ProgramEnrollment {
   updatedAt DateTime @updatedAt
 }
 
+model User{
+  id Int @id @default(autoincrement())
+  userName String
+  passWord String
+  isActive Boolean @default(true)
+  loginAttemptsLeft Int @default(3)
+  uuid String @default(uuid())
+  voided Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
