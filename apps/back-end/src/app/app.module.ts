@@ -12,6 +12,8 @@ import { VisitsModule } from '../visits/visits.module';
 import { EncounterTypesModule } from '../encounter-types/encounter-types.module';
 import { EncountersModule } from '../encounters/encounters.module';
 import { PatientStatisticsModule } from '../patient-statistics/patient-statistics.module';
+import { UsersModule } from '../users/users.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -23,10 +25,12 @@ import { PatientStatisticsModule } from '../patient-statistics/patient-statistic
     VisitsModule,
     EncounterTypesModule,
     EncountersModule,
-    PatientStatisticsModule
+    PatientStatisticsModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
-  exports:[PrismaService]
+  exports: [PrismaService],
 })
 export class AppModule {}
