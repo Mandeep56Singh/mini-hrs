@@ -1,5 +1,5 @@
 import { getApiUrl } from '../config/config.service';
-import { Login, LoginResponse } from '../models/auth';
+import { Login, LoginResponse, SignUp } from '../models/auth';
 
 interface ErroResp {
   statusCode: number;
@@ -24,4 +24,17 @@ export async function signIn(
   });
 
   return loginResp.json();
+}
+
+export async function signUp(payload: SignUp) {
+  const url = getBaseUrl() + '/sign-up';
+  const signUpResp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return signUpResp.json();
 }

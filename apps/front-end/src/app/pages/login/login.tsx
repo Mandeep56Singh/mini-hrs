@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { Col, Row } from 'antd';
-import { Button, Form, Input } from 'antd';
+import { Col, Row, Button, Form, Input, Card, Alert } from 'antd';
 import styles from './login.module.css';
-import { Card } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signIn } from '../../resources/auth.resource';
 import { Login } from '../../models/auth';
 import { setItem } from '../../resources/local-storage.resource';
-import { Alert } from 'antd';
 import { AlertMessage } from '../../models/alert-message';
 
 const LoginPage: React.FC = () => {
@@ -23,16 +20,14 @@ const LoginPage: React.FC = () => {
       setLoginMessage(msg);
     } else {
       setItem('access_token', newLogin.access_token);
-      redirectToHomePage();
+      redirectToPatientSearch();
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
-  const redirectToHomePage = () => {
-    return navigate('/');
+  const redirectToPatientSearch = () => {
+    return navigate('/patient-search');
   };
   return (
     <Row className={styles.loginRow}>
@@ -88,6 +83,7 @@ const LoginPage: React.FC = () => {
               <Button type="primary" htmlType="submit">
                 Login
               </Button>
+              <Link className={styles.signUpLink} to='/sign-up'>Signup instead</Link>     
             </Form.Item>
           </Form>
         </Card>
