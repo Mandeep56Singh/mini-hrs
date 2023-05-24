@@ -25,7 +25,9 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {};
+  const onFinishFailed = (errorInfo: any) => {
+    return;
+  };
 
   const redirectToPatientSearch = () => {
     return navigate('/patient-search');

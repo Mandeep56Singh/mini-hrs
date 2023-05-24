@@ -49,7 +49,9 @@ const SignUpPage: React.FC = ()=>{
           return true;
       }
     
-      const onFinishFailed = (errorInfo: any) => {};
+      const onFinishFailed = (errorInfo: any) => {
+        return;
+      };
     
       const redirectToLoginPage = () => {
         return navigate('/login');
