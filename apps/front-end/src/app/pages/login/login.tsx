@@ -20,6 +20,7 @@ const LoginPage: React.FC = () => {
       setLoginMessage(msg);
     } else {
       setItem('access_token', newLogin.access_token);
+      setItem('current_user',values.username);
       redirectToPatientSearch();
     }
   };

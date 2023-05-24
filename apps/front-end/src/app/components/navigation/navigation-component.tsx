@@ -3,12 +3,14 @@ import { Menu } from 'antd';
 import { UserOutlined, LogoutOutlined, SettingOutlined, SearchOutlined, HomeOutlined, ProfileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Link } from 'react-router-dom';
+import { getItem } from '../../resources/local-storage.resource';
 
 /* eslint-disable-next-line */
 export interface NavigationComponentProps {}
 
 export function NavigationComponent(props: NavigationComponentProps) {
   const [current, setCurrent] = useState('home');
+  const currentUser = getItem('current_user');
 
   const onClick: MenuProps['onClick'] = (e) => {
     setCurrent(e.key);
@@ -35,7 +37,7 @@ export function NavigationComponent(props: NavigationComponentProps) {
       icon: <SettingOutlined />
     },
     {
-      label: 'Admin',
+      label: currentUser ? currentUser : '',
       key: 'user',
       icon: <UserOutlined />,
     },
