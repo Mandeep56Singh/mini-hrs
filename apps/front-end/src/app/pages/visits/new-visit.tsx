@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Select, Button } from 'antd';
-import { getLocations } from '../../resources/location-resource';
 import { getPrograms } from '../../resources/program-resource';
 import { Program } from '../../models/programs';
-import { Location } from '../../models/location';
 import { VisitType } from '@prisma/client';
 import { getProgramVisitTypes } from '../../resources/visit-types.resouorce';
 import './visits.css';
 import { startVisit } from '../../resources/visit-resource';
 import { CreateVisitPayload, Visit } from '../../models/visit';
+import { useLocations } from '../../resources/hooks/use-location';
+import ErrorAlert from '../../components/error/error-alert';
+import Loader from '../../components/loader/loader';
 
 const NewVisit: React.FC<{ patientUuid: string; onNewVisitCreated: (nv:Visit)=> void }> = ({ patientUuid, onNewVisitCreated }) => {
-  const [locations, setLocations] = useState<Location[]>([]);
   const [programs, setPrograms] = useState<Program[]>([]);
   const [visitTypes, setVisitTypes] = useState<VisitType[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string>('');
   const [selectedProgram, setSelectedProgram] = useState<string>();
   const [selectedVisitType, setSelectedVisitType] = useState<string>('');
+  const { locations, error , isLoading , isError} = useLocations();
 
   useEffect(() => {
-    getLocations().then((locations) => {
-      setLocations(locations);
-    });
     getPrograms().then((programs) => {
       setPrograms(programs);
     });
@@ -50,22 +48,29 @@ const NewVisit: React.FC<{ patientUuid: string; onNewVisitCreated: (nv:Visit)=> 
     const newVisit = await startVisit(newVisitPayload);
     onNewVisitCreated(newVisit);
   };
+  if(isError){
+     return <ErrorAlert  error={error} />
+  }
+  if(isLoading){
+    return <Loader />
+  }
 
+  if(locations){
   return (
     <>
-      <Row className="visit-row">
-        <Col>
-          <label>Location : </label>
-          <Select
-            placeholder="Select Location"
-            style={{ width: 300 }}
-            onChange={(e: string) => locationChangeHandler(e)}
-            options={locations.map((location) => {
-              return { value: location.uuid, label: location.name };
-            })}
-          />
-        </Col>
-      </Row>
+     <Row className="visit-row">
+      {locations.length > 0 ? (<Col>
+        <label>Location : </label>
+        <Select
+          placeholder="Select Location"
+          style={{ width: 300 }}
+          onChange={(e: string) => locationChangeHandler(e)}
+          options={locations.map((location) => {
+            return { value: location.uuid, label: location.name };
+          })}
+        />
+      </Col>): ''}
+    </Row>
       <Row className="visit-row">
         <Col>
           <label>Program : </label>
@@ -108,6 +113,7 @@ const NewVisit: React.FC<{ patientUuid: string; onNewVisitCreated: (nv:Visit)=> 
       </Row>
     </>
   );
+  }
 };
 
 export default NewVisit;
