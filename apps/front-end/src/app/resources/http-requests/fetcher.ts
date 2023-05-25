@@ -2,7 +2,7 @@ import { getItem } from '../local-storage.resource';
 
 interface Config {
   method: string;
-  data: any;
+  body: string;
 }
 
 const accessToken = getItem('access_token');
