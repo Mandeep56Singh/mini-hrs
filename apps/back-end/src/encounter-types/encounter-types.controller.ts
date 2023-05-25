@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { EncounterTypesService } from './encounter-types.service';
 import { CreateEncounterTypeDto, CreateEncounterTypePayloadDto } from './dtos/encounter-type.dto';
 import { VisitTypesService } from '../visit-types/visit-types.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('encounter-types')
 export class EncounterTypesController {
     constructor(

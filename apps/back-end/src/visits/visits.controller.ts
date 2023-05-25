@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { VisitsService } from './visits.service';
 import {
   CreateVisitDto,
@@ -9,7 +9,9 @@ import {
 import { PatientsService } from '../patients/patients.service';
 import { LocationsService } from '../locations/locations.service';
 import { VisitTypesService } from '../visit-types/visit-types.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('visits')
 export class VisitsController {
   constructor(

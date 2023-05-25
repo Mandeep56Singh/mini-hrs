@@ -6,6 +6,7 @@ import {
   Post,
   Query,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { ProgramEnrollmentsService } from './program-enrollments.service';
 import {
@@ -16,7 +17,9 @@ import {
 import { PatientsService } from '../patients/patients.service';
 import { ProgramsService } from '../programs/programs.service';
 import { LocationsService } from '../locations/locations.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('program-enrollments')
 export class ProgramEnrollmentsController {
   constructor(

@@ -1,8 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { PatientStatisticsService } from './patient-statistics.service';
 import { PatientsService } from '../patients/patients.service';
 import { DashboardStatsResponse } from './dtos/dashboard-statistics.dto';
-
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+@UseGuards(JwtAuthGuard)
 @Controller('patient-statistics')
 export class PatientStatisticsController {
     constructor(

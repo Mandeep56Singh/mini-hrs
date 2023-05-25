@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateLocationDto } from './dtos/create-locations.dto';
 import { LocationsService } from './locations.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('locations')
 export class LocationsController {
     constructor(private locationsService: LocationsService){

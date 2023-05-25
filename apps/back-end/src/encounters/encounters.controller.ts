@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { EncountersService } from './encounters.service';
 import { CreateEncountePayloadDto, CreateEncounterDto } from './dtos/encounter.dto';
 import { LocationsService } from '../locations/locations.service';
 import { PatientsService } from '../patients/patients.service';
 import { VisitsService } from '../visits/visits.service';
 import { EncounterTypesService } from '../encounter-types/encounter-types.service';
-
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+@UseGuards(JwtAuthGuard)
 @Controller('encounters')
 export class EncountersController {
     constructor(
