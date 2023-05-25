@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Menu } from 'antd';
 import { UserOutlined, LogoutOutlined, SettingOutlined, SearchOutlined, HomeOutlined, ProfileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getItem } from '../../resources/local-storage.resource';
+import { logOut } from '../../resources/logout.resource';
 
 /* eslint-disable-next-line */
 export interface NavigationComponentProps {}
@@ -11,9 +12,14 @@ export interface NavigationComponentProps {}
 export function NavigationComponent(props: NavigationComponentProps) {
   const [current, setCurrent] = useState('home');
   const currentUser = getItem('current_user');
+  const navigate = useNavigate();
 
   const onClick: MenuProps['onClick'] = (e) => {
     setCurrent(e.key);
+  };
+  const handleLogout = ()=>{
+     logOut();
+     navigate('/login');
   };
   const items: MenuProps['items'] = [
     {
@@ -44,7 +50,8 @@ export function NavigationComponent(props: NavigationComponentProps) {
     {
       label: <Link to="/">Logout</Link>,
       key: 'logout',
-      icon: <LogoutOutlined />
+      icon: <LogoutOutlined />,
+      onClick: ()=> handleLogout()
     },
   ];
   return (

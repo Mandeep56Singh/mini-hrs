@@ -9,3 +9,8 @@ export const getItem = (key: string) => {
   if (item) return JSON.parse(item);
   return '';
 };
+
+export const removeItem = (key: string)=>{
+  const item = localStorage.getItem(key);
+  if(item) localStorage.removeItem(key);
+}
