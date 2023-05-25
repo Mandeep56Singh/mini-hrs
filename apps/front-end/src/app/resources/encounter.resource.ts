@@ -1,5 +1,6 @@
 import { getApiUrl } from '../config/config.service';
 import { CreateEncounterPayLoad, Encounter } from '../models/encounter';
+import { customAxios } from './http-requests/custom-axios';
 
 function getBaseUrl() {
   return getApiUrl() + `/encounters`;
@@ -9,12 +10,8 @@ export async function createEncounter(
   payload: CreateEncounterPayLoad
 ): Promise<Encounter> {
   const url = getBaseUrl();
-  const newVisit = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+  const resp = await customAxios.post(url,{
+     ...payload
   });
-  return newVisit.json();
+  return resp.data;
 }

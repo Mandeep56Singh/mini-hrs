@@ -1,6 +1,7 @@
 import { getApiUrl } from '../config/config.service';
 import { CreateVisitPayload, CompleteVisitPayload } from '../models/visit';
 import { Visit } from '../models/visit';
+import { customAxios } from './http-requests/custom-axios';
 
 function getBaseUrl() {
   return getApiUrl() + `/visits`;
@@ -8,20 +9,16 @@ function getBaseUrl() {
 
 export async function startVisit(payload: CreateVisitPayload): Promise<Visit> {
   const url = getBaseUrl();
-  const newVisit = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+  const resp = await customAxios.post(url,{
+    ...payload
   });
-  return newVisit.json();
+  return resp.data;
 }
 
 export async function getPatientVisits(patientUuid: string): Promise<Visit[]> {
   const url = getBaseUrl() + `/patient?patientUuid=${patientUuid}`;
-  const visits = await fetch(url);
-  return visits.json();
+  const resp = await customAxios.get(url);
+  return resp.data;
 }
 
 export async function endVisit(visitUuid: string, visitEnd: Date) {
@@ -29,12 +26,8 @@ export async function endVisit(visitUuid: string, visitEnd: Date) {
   const data: CompleteVisitPayload = {
     visitEnd: visitEnd,
   };
-  const enrolledPrograms = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+  const resp = await customAxios.patch(url,{
+    ...data
   });
-  return enrolledPrograms.json();
+  return resp.data;
 }

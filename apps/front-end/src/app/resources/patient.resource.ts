@@ -1,5 +1,6 @@
 import { getApiUrl } from '../config/config.service';
 import { CreatePatientPayload } from '../models/patient';
+import { customAxios } from './http-requests/custom-axios';
 
 function getBaseUrl() {
   return getApiUrl() + `/patients`;
@@ -7,18 +8,14 @@ function getBaseUrl() {
 
 export async function getPatient(patientUuid: string) {
   const url = getBaseUrl() + `/${patientUuid}`;
-  const response = await fetch(url);
-  return response.json();
+  const resp = await customAxios.get(url);
+  return resp.data;
 }
 
 export async function createPatient(payload: CreatePatientPayload) {
   const url = getBaseUrl();
-  const newPatient = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+  const resp = await customAxios.post(url,{
+    ...payload
   });
-  return newPatient.json();
+  return resp.data;
 }

@@ -1,4 +1,5 @@
 import { getApiUrl } from "../config/config.service";
+import { customAxios } from "./http-requests/custom-axios";
 
 function getBaseUrl(){
     return  getApiUrl() + `/patients/search`;
@@ -6,6 +7,6 @@ function getBaseUrl(){
 
 export async function patientSearch(searchString: string){
     const url = getBaseUrl() + `?identifier=${searchString}`;
-    const response = await fetch(url);
-    return response.json();
+    const resp = await customAxios.get(url);
+    return resp.data;
 }

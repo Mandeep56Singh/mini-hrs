@@ -4,6 +4,7 @@ import {
   ProgramEnrollmentPayload,
   CompleteEnrollmentPayload,
 } from '../models/program-enrollment';
+import { customAxios } from './http-requests/custom-axios';
 
 function getBaseUrl() {
   return getApiUrl() + `/program-enrollments`;
@@ -14,8 +15,8 @@ export async function getEnrolledPrograms(
 ): Promise<PatientProgramEnrollment[]> {
   const url =
     getBaseUrl() + `/patient?patientUuid=${patientUuid}&completed=false`;
-  const enrolledPrograms = await fetch(url);
-  return enrolledPrograms.json();
+  const resp = await customAxios.get(url);
+  return resp.data;
 }
 
 export async function getCompletedPrograms(
@@ -23,35 +24,24 @@ export async function getCompletedPrograms(
 ): Promise<PatientProgramEnrollment[]> {
   const url =
     getBaseUrl() + `/patient?patientUuid=${patientUuid}&completed=true`;
-  const enrolledPrograms = await fetch(url);
-  return enrolledPrograms.json();
+  const response = await customAxios.get(url);
+  return response.data;
 }
 
 export async function enroll(
   payload: ProgramEnrollmentPayload
 ): Promise<PatientProgramEnrollment> {
   const url = getBaseUrl();
-  const enrolledPrograms = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+  const resp = await customAxios.post(url,{
+    ...payload
   });
-  return enrolledPrograms.json();
+  return resp.data;
 }
 
 export async function completeProgram(payload: CompleteEnrollmentPayload) {
   const url = getBaseUrl() + `/${payload.enrollmentUuid}`;
-  const data = {
-    endDate: payload.endDate,
-  };
-  const enrolledPrograms = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+  const resp = await customAxios.patch(url,{
+    endDate: payload.endDate
   });
-  return enrolledPrograms.json();
+  return resp.data;
 }

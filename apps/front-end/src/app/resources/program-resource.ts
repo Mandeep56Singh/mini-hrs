@@ -1,5 +1,6 @@
 import { getApiUrl } from '../config/config.service';
 import { Program } from '../models/programs';
+import { customAxios } from './http-requests/custom-axios';
 
 function getBaseUrl() {
   return getApiUrl() + `/programs`;
@@ -7,6 +8,6 @@ function getBaseUrl() {
 
 export async function getPrograms(): Promise<Program[]> {
   const url = getBaseUrl();
-  const programs = await fetch(url);
-  return programs.json();
+  const resp = await customAxios.get(url);
+  return resp.data;
 }
