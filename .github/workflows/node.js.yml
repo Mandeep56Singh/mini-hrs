@@ -23,5 +23,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: nx test front-end
-    - run: nx test back-end
+    - run: npm run test:fe
+    - run: npm run test:be

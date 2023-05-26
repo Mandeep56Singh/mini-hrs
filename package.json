@@ -2,7 +2,10 @@
   "name": "nx-mini-hrs",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "test:fe": "nx run front-end:test",
+    "test:be": "nx run back-end:test"
+  },
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.1.0",
