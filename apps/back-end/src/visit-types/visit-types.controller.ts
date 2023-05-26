@@ -17,7 +17,6 @@ export class VisitTypesController {
   @Get('program')
   async findProgramVisitTypes(@Query('programUuid') programUuid: string) {
     const program = await this.programService.findIdFromUuid(programUuid);
-    console.log({ program }, { programUuid });
     return this.visitTypeService.findProgramVisitTypes(program.id);
   }
   @Get(':visitTypeUuid')
