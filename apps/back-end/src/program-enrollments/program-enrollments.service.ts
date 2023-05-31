@@ -37,7 +37,7 @@ export class ProgramEnrollmentsService {
         programId: body.programId,
         patientId: body.patientId,
         locationId: body.locationId,
-        startDate: body.startDate
+        startDate: body.startDate,
       },
     });
   }
@@ -93,22 +93,22 @@ export class ProgramEnrollmentsService {
       },
     });
   }
-  findActivePatientEnrollmentsCount(patientId:number){
-     return this.prismaService.programEnrollment.count({
-      where:{
-        patientId: patientId,
-        endDate:{
-          not: null
-        }
-      }
-     });
-  }
-  findCompletedPatientEnrollmentsCount(patientId:number){
+  findActivePatientEnrollmentsCount(patientId: number) {
     return this.prismaService.programEnrollment.count({
-     where:{
-       patientId: patientId,
-       endDate: null
-     }
+      where: {
+        patientId: patientId,
+        endDate: {
+          not: null,
+        },
+      },
     });
- }
+  }
+  findCompletedPatientEnrollmentsCount(patientId: number) {
+    return this.prismaService.programEnrollment.count({
+      where: {
+        patientId: patientId,
+        endDate: null,
+      },
+    });
+  }
 }

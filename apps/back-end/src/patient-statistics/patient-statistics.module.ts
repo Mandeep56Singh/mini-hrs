@@ -16,6 +16,6 @@ import { PatientsService } from '../patients/patients.service';
     EncountersService,
     ProgramEnrollmentsService,
     PatientsService
-  ],
+  ]
 })
 export class PatientStatisticsModule {}
