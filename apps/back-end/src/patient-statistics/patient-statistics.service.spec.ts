@@ -55,6 +55,6 @@ describe('PatientStatisticsService', () => {
     expect(encountersService).toBeDefined();
   });
   it('program enrollments service should be defined', () => {
-    expect(encountersService).toBeDefined();
+    expect(programEnrollmentsService).toBeDefined();
   });
 });
