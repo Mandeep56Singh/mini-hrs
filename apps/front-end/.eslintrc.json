@@ -14,5 +14,9 @@
       "files": ["*.js", "*.jsx"],
       "rules": {}
     }
-  ]
+  ],
+  "globals": {
+    "vi": true
+  }
+  
 }
