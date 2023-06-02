@@ -60,6 +60,7 @@ const LoginPage: React.FC = () => {
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
+            data-testid="login-form"
             autoComplete="off"
           >
             <Form.Item
