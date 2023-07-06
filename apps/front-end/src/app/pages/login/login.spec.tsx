@@ -22,7 +22,7 @@ describe('Login Page: ', () => {
     const loginFormElement = screen.getByTestId('login-form');
     const userNameElement = screen.getByLabelText(/Username/);
     const passwordElement = screen.getByLabelText(/Password/);
-    const loginBtnElement = screen.getByRole('button', { name: /LogIn/i });
+    const loginBtnElement = screen.getByRole('button', { name: /Login/i });
     const signUpLinkElement = screen.getByRole('link', {
       name: /Signup instead/,
     });

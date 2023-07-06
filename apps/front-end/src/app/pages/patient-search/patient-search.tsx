@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'antd';
-import { Input, Button, Space } from 'antd';
+import { Row, Col , Alert } from 'antd';
+import { Input, Button } from 'antd';
 import { patientSearch } from '../../resources/patient-search.resource';
 import { ColumnsType } from 'antd/es/table';
 import TableList from '../../components/table-list/table-list';
@@ -10,7 +10,9 @@ import {
   PatientSearchResponse,
   PatientSearchTableData,
 } from '../../models/patient-search';
+import { AxiosErrorResponse } from '../../models/request';
 import AddPatientModal from '../../components/patient/add-patient-modal';
+import { getErrorMessage } from '../../utils/error-message-helper';
 
 const { Search } = Input;
 interface DataType {
@@ -48,18 +50,32 @@ const PatientSearch: React.FC = () => {
   const [_, setSearchResults] = useState<PatientSearchResponse[]>([]);
   const [tableData, setTableData] = useState<PatientSearchTableData[]>([]);
   const [showAddPatientModal, setShowAddPatientModal] = useState<boolean>(false);
+  const [error,setError]= useState<{message: string; type: string}>();
   const onChangeHandler = (s: string) => {
     setSearchString(s);
   };
   const onEnterHandler = async () => {
-    const results: PatientSearchResponse[] = await patientSearch(searchString);
-    setSearchResults(results);
-    processTableData(results);
+    try{
+      const results: PatientSearchResponse[] = await patientSearch(searchString);
+      setSearchResults(results);
+      processTableData(results);
+      setError({
+        message: '',
+        type: ''
+      });
+    }catch(e){
+      const errorMsg = getErrorMessage(e as AxiosErrorResponse);
+      setError({
+        message: errorMsg.errorText,
+        type: 'error'
+      });
+    }
+    
   };
   const processTableData = (results: PatientSearchResponse[]) => {
     const data = results.map((result) => {
       return {
-        key: result?.uuid,
+        key: result.patient?.uuid,
         identifier:
           result?.patient.patientIdentifiers.length > 0
             ? result?.patient.patientIdentifiers[0]?.identifier
@@ -69,7 +85,6 @@ const PatientSearch: React.FC = () => {
         patientUuid: result.patient?.uuid,
       };
     });
-
     setTableData(data);
   };
   const cancelAddPatientModalHandler = ()=>{
@@ -83,6 +98,15 @@ const PatientSearch: React.FC = () => {
       <Row>
         <Col span={12} offset={6}>
           <h2>Patient Search</h2>
+          {error && error.message.length > 0 ? (
+            <Alert
+              message={error.message}
+              type={error.type}
+              showIcon
+            />
+          ) : (
+            ''
+          )}
           <Search
             placeholder="Enter patient ID"
             enterButton="Search"
