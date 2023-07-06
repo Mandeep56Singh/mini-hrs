@@ -3,7 +3,7 @@ import TableList from '../table-list/table-list';
 import { Button } from 'antd';
 import { Encounter } from '../../models/encounter';
 import { formatDate } from '../../utils/date-formatter';
-import { EyeOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined } from '@ant-design/icons';
 
 
 const columns = [
@@ -36,6 +36,11 @@ const EncounterList: React.FC<{
     return;
   };
 
+  const onClickEditHandler = (encounterTypeUuid: string)=>{
+     console.log('onClickEditHandler...', encounterTypeUuid);
+
+  };
+
 
   return (
     <TableList
@@ -47,12 +52,21 @@ const EncounterList: React.FC<{
           location: e.location.name,
           encounterType: e.encounterType?.name,
           action: (
+            <>
             <Button
               type="default"
               onClick={() => onClickHandler(e.uuid)}
             >
             <EyeOutlined />
+           
             </Button>
+            <Button
+             type="default"
+             onClick={() => onClickEditHandler(e.encounterType?.uuid)}
+            >
+              <EditOutlined />
+            </Button>
+          </>
           ),
         };
       })}
