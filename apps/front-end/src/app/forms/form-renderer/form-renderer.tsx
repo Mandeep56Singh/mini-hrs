@@ -16,7 +16,7 @@ const FormRenderer: React.FC<FormRendererProps> = ({formSchema}) => {
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
   return (<form onSubmit={handleSubmit(onSubmit)}>
-       <h2>Name: {formSchema.name}</h2>
+       <h2>{formSchema.name}</h2>
        {
         formSchema.questions.map((q)=>{
             let formControl;

@@ -28,24 +28,24 @@ export class VisitsService {
             name: true,
           },
         },
-        encounters:{
-          select:{
+        encounters: {
+          select: {
             uuid: true,
             encounterDate: true,
-            location:{
-              select:{
+            location: {
+              select: {
                 uuid: true,
-                name: true
-              }
-            },
-            encounterType:{
-              select:{
                 name: true,
-                uuid: true
-              }
-            }
-          }
-        }
+              },
+            },
+            encounterType: {
+              select: {
+                name: true,
+                uuid: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -86,8 +86,8 @@ export class VisitsService {
       where: {
         patientId: patientId,
       },
-      orderBy:{
-        visitDate: 'desc'
+      orderBy: {
+        visitDate: 'desc',
       },
       select: {
         uuid: true,
@@ -105,24 +105,29 @@ export class VisitsService {
             name: true,
           },
         },
-        encounters:{
-          select:{
+        encounters: {
+          select: {
             uuid: true,
             encounterDate: true,
-            location:{
-              select:{
+            location: {
+              select: {
                 uuid: true,
-                name: true
-              }
-            },
-            encounterType:{
-              select:{
                 name: true,
-                uuid: true
-              }
-          }
-          }
-        }
+              },
+            },
+            encounterType: {
+              select: {
+                name: true,
+                uuid: true,
+              },
+            },
+            visit: {
+              select: {
+                uuid: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -146,11 +151,11 @@ export class VisitsService {
       },
     });
   }
-  findPatientVisitsCount(patientId: number){
-      return this.prismaService.visit.count({
-        where:{
-          patientId: patientId
-        }
-       });
+  findPatientVisitsCount(patientId: number) {
+    return this.prismaService.visit.count({
+      where: {
+        patientId: patientId,
+      },
+    });
   }
 }

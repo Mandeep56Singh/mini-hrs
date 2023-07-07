@@ -9,6 +9,7 @@ import PatientDashboard from '../pages/patient-dashboard/patient-dashboard';
 import ProgramEnrollment from '../pages/program-enrollment/program-enrollment';
 import PatientInfo from '../components/patient-info/patient-info';
 import SignUpPage from '../pages/sign-up/sign-up';
+import EncounterForm from '../components/encounters/encounter-form';
 
 export const appRouter = createBrowserRouter([
   {
@@ -53,6 +54,13 @@ export const appRouter = createBrowserRouter([
       {
         path: ':uuid/enrollments',
         element: <ProgramEnrollment />,
+        loader: ({ params }) => {
+          return params;
+        },
+      },
+      {
+        path: ':uuid/visits/:visitUuid/encounter-form/:encounterTypeUuid',
+        element: <EncounterForm />,
         loader: ({ params }) => {
           return params;
         },

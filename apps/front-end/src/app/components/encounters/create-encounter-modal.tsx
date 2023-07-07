@@ -4,8 +4,6 @@ import { createEncounter } from '../../resources/encounter.resource';
 import { CreateEncounterPayLoad, Encounter } from '../../models/encounter';
 import { EncounterType } from '../../models/encounter-type';
 import { getEncounterTypes } from '../../resources/encounter-types.resource';
-import FormRenderer from '../../forms/form-renderer/form-renderer';
-import { TestForm } from '../../forms/schemas/test';
 
 interface createEncounterProps {
   patientUuid: string;
@@ -27,7 +25,7 @@ const CreateEnconterModal: React.FC<createEncounterProps> = ({
   handleCancel,
   onNewEncounter
 }) => {
-  const [loading, setLoading] = useState(false);
+  const [_, setLoading] = useState(false);
   const [selectedEncounterType, setSelectedEncounterType] = useState('');
   const [encounterTypes, setEncounterTypes] = useState<EncounterType[]>([]);
 
@@ -76,11 +74,6 @@ const CreateEnconterModal: React.FC<createEncounterProps> = ({
             options={encounterTypes.map((encounterType) => {
               return { value: encounterType.uuid, label: encounterType.name };
             })}
-          />
-        </Col>
-        <Col>
-          <FormRenderer 
-          formSchema={TestForm}
           />
         </Col>
       </Row>

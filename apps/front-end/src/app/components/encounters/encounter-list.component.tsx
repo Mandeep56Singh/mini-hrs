@@ -4,6 +4,7 @@ import { Button } from 'antd';
 import { Encounter } from '../../models/encounter';
 import { formatDate } from '../../utils/date-formatter';
 import { EyeOutlined, EditOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 
 const columns = [
@@ -32,12 +33,13 @@ const columns = [
 const EncounterList: React.FC<{
   encounters: Encounter[];
 }> = ({ encounters }) => {
+  const navigate = useNavigate();
   const onClickHandler =  (encounterUuid: string): void => {
     return;
   };
 
-  const onClickEditHandler = (encounterTypeUuid: string)=>{
-     console.log('onClickEditHandler...', encounterTypeUuid);
+  const onClickEditHandler = (encounterTypeUuid: string,visitUuid: string)=>{
+     navigate(`./${visitUuid}/encounter-form/${encounterTypeUuid}`)
 
   };
 
@@ -62,7 +64,7 @@ const EncounterList: React.FC<{
             </Button>
             <Button
              type="default"
-             onClick={() => onClickEditHandler(e.encounterType?.uuid)}
+             onClick={() => onClickEditHandler(e.encounterType?.uuid,e.visit?.uuid)}
             >
               <EditOutlined />
             </Button>
