@@ -59,7 +59,7 @@ export const appRouter = createBrowserRouter([
         },
       },
       {
-        path: ':uuid/visits/:visitUuid/encounter-form/:encounterTypeUuid',
+        path: ':uuid/visits/:visitUuid/encounter/:encounterUuid/encounter-form/:encounterTypeUuid',
         element: <EncounterForm />,
         loader: ({ params }) => {
           return params;

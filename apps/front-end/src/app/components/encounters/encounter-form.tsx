@@ -10,17 +10,25 @@ const EncounterForm: React.FC = ()=>{
         encounterTypeUuid: string;
         uuid: string;
         visitUuid: string;
+        encounterUuid: string;
     };
     const [form,setForm] = useState<FormSchema>();
-
     useEffect(()=>{
         const f = getFormByEncounterType(data.encounterTypeUuid);
        setForm(f);
     },[data.encounterTypeUuid]);
+
+    const handleSaveForm = (formData: any)=>{
+         const payload = {
+            ...formData,
+            encounterUuid: data.encounterUuid
+         };
+         return;
+    };
     return(
     <div>
     { form ?
-        <FormRenderer formSchema={form} /> : ''
+        <FormRenderer formSchema={form} onSave={handleSaveForm}/> : ''
     }
     </div>
     );

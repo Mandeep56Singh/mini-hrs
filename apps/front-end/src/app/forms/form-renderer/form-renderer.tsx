@@ -4,16 +4,20 @@ import { Input, Button } from 'antd';
 import { FormSchema } from '../types';
 
 interface FormRendererProps{
-  formSchema: FormSchema
+  formSchema: FormSchema;
+  onSave:(data: any)=>any;
 }
 
-const FormRenderer: React.FC<FormRendererProps> = ({formSchema}) => {
+const FormRenderer: React.FC<FormRendererProps> = ({formSchema,onSave}) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
-  const onSubmit: SubmitHandler<any> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<any> = (data) => {
+    console.log(data);
+    onSave(data);
+  };
 
   return (<form onSubmit={handleSubmit(onSubmit)}>
        <h2>{formSchema.name}</h2>

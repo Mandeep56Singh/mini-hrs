@@ -38,8 +38,8 @@ const EncounterList: React.FC<{
     return;
   };
 
-  const onClickEditHandler = (encounterTypeUuid: string,visitUuid: string)=>{
-     navigate(`./${visitUuid}/encounter-form/${encounterTypeUuid}`)
+  const onClickEditHandler = (visitUuid: string,encounterTypeUuid: string,encounterUuid: string)=>{
+     navigate(`./${visitUuid}/encounter/${encounterUuid}/encounter-form/${encounterTypeUuid}`)
 
   };
 
@@ -64,7 +64,7 @@ const EncounterList: React.FC<{
             </Button>
             <Button
              type="default"
-             onClick={() => onClickEditHandler(e.encounterType?.uuid,e.visit?.uuid)}
+             onClick={() => onClickEditHandler(e.visit.uuid,e.encounterType?.uuid,e.uuid)}
             >
               <EditOutlined />
             </Button>
