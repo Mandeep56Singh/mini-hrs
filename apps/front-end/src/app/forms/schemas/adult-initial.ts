@@ -1,8 +1,8 @@
 import { FormSchema } from '../types';
-export const TestForm: FormSchema = {
-  name: 'Test Form',
+export const AdultInitialForm: FormSchema = {
+  name: 'Adult Initial Form',
   version: '1.0',
-  encounterTypeUuid: '63ae6581-a415-4bc8-ae11-f29ae79b2e70',
+  encounterTypeUuid: '5dd960cc-077f-4d92-bed5-58f07d5532b3',
   questions: [
     {
       id: 'visitDate',

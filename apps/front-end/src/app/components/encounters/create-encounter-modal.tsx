@@ -62,6 +62,9 @@ const CreateEnconterModal: React.FC<createEncounterProps> = ({
         <Button key="back" onClick={handleCancel} danger>
           Cancel
         </Button>,
+        <Button type="primary" onClick={handleSubmit}>
+        Save
+      </Button>,
       ]}
     >
       <Row>
