@@ -15,4 +15,14 @@ export class AnswerTypeService {
       },
     });
   }
+  findIdByName(answerType: string) {
+    return this.prismaService.answerType.findFirstOrThrow({
+      where: {
+        name: answerType,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
 }

@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Answer" ALTER COLUMN "valueText" DROP NOT NULL,
+ALTER COLUMN "valueNumber" DROP NOT NULL,
+ALTER COLUMN "valueDateTime" DROP NOT NULL;

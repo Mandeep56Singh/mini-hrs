@@ -14,4 +14,14 @@ export class QuestionService {
       },
     });
   }
+  findIdFromUuid(uuid: string) {
+    return this.prismaService.question.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
 }

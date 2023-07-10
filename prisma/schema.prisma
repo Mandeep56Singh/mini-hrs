@@ -136,6 +136,7 @@ model Encounter {
   updatedAt       DateTime      @updatedAt
   visit           Visit         @relation(fields: [visitId], references: [id])
   visitId         Int
+  Answer          Answer[]
 }
 
 model ProgramEnrollment {
@@ -187,15 +188,18 @@ model AnswerType {
 }
 
 model Answer {
-  id           Int        @id @default(autoincrement())
-  question     Question   @relation(fields: [questionId], references: [id])
-  questionId   Int
-  answerType   AnswerType @relation(fields: [answerTypeId], references: [id])
-  answerTypeId Int
-  valueText    String
-  valueNumber  Int
-  uuid         String     @default(uuid())
-  voided       Boolean    @default(false)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id            Int        @id @default(autoincrement())
+  encounter     Encounter  @relation(fields: [encounterId], references: [id])
+  encounterId   Int
+  question      Question   @relation(fields: [questionId], references: [id])
+  questionId    Int
+  answerType    AnswerType @relation(fields: [answerTypeId], references: [id])
+  answerTypeId  Int
+  valueText     String?
+  valueNumber   Int?
+  valueDateTime DateTime?
+  uuid          String     @default(uuid())
+  voided        Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
