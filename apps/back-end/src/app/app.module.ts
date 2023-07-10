@@ -15,6 +15,7 @@ import { PatientStatisticsModule } from '../patient-statistics/patient-statistic
 import { UsersModule } from '../users/users.module';
 import { AuthModule } from '../auth/auth.module';
 import { QuestionModule } from '../question/question.module';
+import { AnswerTypeModule } from '../answer-type/answer-type.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { QuestionModule } from '../question/question.module';
     UsersModule,
     AuthModule,
     QuestionModule,
+    AnswerTypeModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
