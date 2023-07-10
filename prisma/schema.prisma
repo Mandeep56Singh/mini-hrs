@@ -12,157 +12,190 @@ datasource db {
 
 //test database
 model Test {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  value Boolean
+  value     Boolean
 }
 
 model Patient {
-  id Int @id @default(autoincrement())
-  uuid String @default(uuid())
-  dob DateTime?
-  gender String?
-  patientNames PatientName[]
+  id                 Int                 @id @default(autoincrement())
+  uuid               String              @default(uuid())
+  dob                DateTime?
+  gender             String?
+  patientNames       PatientName[]
   patientIdentifiers PatientIdentifier[]
-  visits Visit[]
-  encounters Encounter[]
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  visits             Visit[]
+  encounters         Encounter[]
+  voided             Boolean             @default(false)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
   programEnrollments ProgramEnrollment[]
 }
 
 model PatientName {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   firstName String
-  lastName String
-  patient Patient @relation(fields: [patientId],references: [id])
+  lastName  String
+  patient   Patient  @relation(fields: [patientId], references: [id])
   patientId Int
-  uuid String @default(uuid())
-  voided Boolean @default(false)
+  uuid      String   @default(uuid())
+  voided    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model PatientIdentifier {
-    id Int @id @default(autoincrement())
-    identifier String
-    patient Patient @relation(fields: [patientId],references: [id])
-    patientId Int
-    uuid String @default(uuid())
-    voided Boolean @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  identifier String
+  patient    Patient  @relation(fields: [patientId], references: [id])
+  patientId  Int
+  uuid       String   @default(uuid())
+  voided     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Program {
-  id Int @id @default(autoincrement())
-  name String
-  uuid String @default(uuid())
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  visitTypes VisitType[]
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  uuid               String              @default(uuid())
+  voided             Boolean             @default(false)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  visitTypes         VisitType[]
   programEnrollments ProgramEnrollment[]
 }
 
 model VisitType {
-  id Int @id @default(autoincrement())
-  name String
-  uuid String @default(uuid())
-  program Program @relation(fields: [programId],references: [id])
-  programId Int
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int             @id @default(autoincrement())
+  name           String
+  uuid           String          @default(uuid())
+  program        Program         @relation(fields: [programId], references: [id])
+  programId      Int
+  voided         Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   encounterTypes EncounterType[]
-  visits Visit[]
+  visits         Visit[]
 }
 
 model EncounterType {
-  id Int @id @default(autoincrement())
-  name String
-  uuid String @default(uuid())
-  visitType VisitType @relation(fields: [visitTypeId],references: [id])
+  id          Int         @id @default(autoincrement())
+  name        String
+  uuid        String      @default(uuid())
+  visitType   VisitType   @relation(fields: [visitTypeId], references: [id])
   visitTypeId Int
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  encounters Encounter[]
+  voided      Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  encounters  Encounter[]
 }
 
 model Location {
-  id Int @id @default(autoincrement())
-  name String
-  uuid String @default(uuid())
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  visits Visit[]
-  encounters Encounter[]
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  uuid               String              @default(uuid())
+  voided             Boolean             @default(false)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  visits             Visit[]
+  encounters         Encounter[]
   programEnrollments ProgramEnrollment[]
 }
 
 model Visit {
-  id Int @id @default(autoincrement())
-  visitDate DateTime
-  visitEnd DateTime?
-  patient Patient @relation(fields: [patientId],references: [id])
-  patientId Int
-  location Location @relation(fields: [locationId], references: [id])
-  locationId Int
-  visitType VisitType @relation(fields: [visitTypeId],references: [id])
+  id          Int         @id @default(autoincrement())
+  visitDate   DateTime
+  visitEnd    DateTime?
+  patient     Patient     @relation(fields: [patientId], references: [id])
+  patientId   Int
+  location    Location    @relation(fields: [locationId], references: [id])
+  locationId  Int
+  visitType   VisitType   @relation(fields: [visitTypeId], references: [id])
   visitTypeId Int
-  uuid String @default(uuid())
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  encounters Encounter[]
+  uuid        String      @default(uuid())
+  voided      Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  encounters  Encounter[]
 }
 
 model Encounter {
-  id Int @id @default(autoincrement())
-  encounterDate DateTime
-  patient Patient @relation(fields: [patientId],references: [id])
-  patientId Int
-  encounterType EncounterType @relation(fields: [encounterTypeId], references: [id])
+  id              Int           @id @default(autoincrement())
+  encounterDate   DateTime
+  patient         Patient       @relation(fields: [patientId], references: [id])
+  patientId       Int
+  encounterType   EncounterType @relation(fields: [encounterTypeId], references: [id])
   encounterTypeId Int
-  location Location @relation(fields: [locationId], references: [id])
-  locationId Int
-  uuid String @default(uuid())
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  visit Visit @relation(fields: [visitId],references: [id])
-  visitId Int
+  location        Location      @relation(fields: [locationId], references: [id])
+  locationId      Int
+  uuid            String        @default(uuid())
+  voided          Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  visit           Visit         @relation(fields: [visitId], references: [id])
+  visitId         Int
 }
 
 model ProgramEnrollment {
-  id Int @id @default(autoincrement())
-  program Program @relation(fields: [programId],references: [id])
-  programId Int
-  patient Patient @relation(fields: [patientId],references: [id])
-  patientId Int
-  location Location @relation(fields: [locationId], references: [id])
+  id         Int       @id @default(autoincrement())
+  program    Program   @relation(fields: [programId], references: [id])
+  programId  Int
+  patient    Patient   @relation(fields: [patientId], references: [id])
+  patientId  Int
+  location   Location  @relation(fields: [locationId], references: [id])
   locationId Int
-  startDate DateTime
-  endDate DateTime?
-  uuid String @default(uuid())
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  startDate  DateTime
+  endDate    DateTime?
+  uuid       String    @default(uuid())
+  voided     Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  userName String
-  passWord String
-  isActive Boolean @default(true)
-  loginAttemptsLeft Int @default(3)
-  uuid String @default(uuid())
-  voided Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id                Int      @id @default(autoincrement())
+  userName          String
+  passWord          String
+  isActive          Boolean  @default(true)
+  loginAttemptsLeft Int      @default(3)
+  uuid              String   @default(uuid())
+  voided            Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
+model Question {
+  id        Int      @id @default(autoincrement())
+  question  String
+  uuid      String   @default(uuid())
+  voided    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  answers   Answer[]
+}
+
+model AnswerType {
+  id        Int      @id @default(autoincrement())
+  name      String
+  uuid      String   @default(uuid())
+  voided    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  answers   Answer[]
+}
+
+model Answer {
+  id           Int        @id @default(autoincrement())
+  question     Question   @relation(fields: [questionId], references: [id])
+  questionId   Int
+  answerType   AnswerType @relation(fields: [answerTypeId], references: [id])
+  answerTypeId Int
+  valueText    String
+  valueNumber  Int
+  uuid         String     @default(uuid())
+  voided       Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
