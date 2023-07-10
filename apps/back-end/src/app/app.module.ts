@@ -14,6 +14,7 @@ import { EncountersModule } from '../encounters/encounters.module';
 import { PatientStatisticsModule } from '../patient-statistics/patient-statistics.module';
 import { UsersModule } from '../users/users.module';
 import { AuthModule } from '../auth/auth.module';
+import { QuestionModule } from '../question/question.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AuthModule } from '../auth/auth.module';
     PatientStatisticsModule,
     UsersModule,
     AuthModule,
+    QuestionModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
