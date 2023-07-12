@@ -1,5 +1,6 @@
 export interface Question {
   id: string;
+  qstnUuid: string;
   label: string;
   type: string;
 }

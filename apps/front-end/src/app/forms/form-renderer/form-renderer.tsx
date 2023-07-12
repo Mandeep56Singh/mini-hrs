@@ -15,8 +15,16 @@ const FormRenderer: React.FC<FormRendererProps> = ({formSchema,onSave}) => {
     formState: { errors },
   } = useForm();
   const onSubmit: SubmitHandler<any> = (data) => {
-    console.log(data);
-    onSave(data);
+    const answers = generateAnswersPayload(data);;
+    onSave(answers);
+  };
+  const generateAnswersPayload = (data: any)=>{
+     return Object.keys(data).map((k: string)=>{
+          return {
+            questionUuid: k,
+            answer: data[k]
+          }
+     });
   };
 
   return (<form onSubmit={handleSubmit(onSubmit)}>
@@ -27,10 +35,10 @@ const FormRenderer: React.FC<FormRendererProps> = ({formSchema,onSave}) => {
             switch(q.type){
                 case 'date':
                   formControl = (
-                  <div key={q.id}>
-                  <label htmlFor={q.id}>{q.label} : </label>
+                  <div key={q.qstnUuid}>
+                  <label htmlFor={q.qstnUuid}>{q.label} : </label>
                   <Controller
-                      name={q.id}
+                      name={q.qstnUuid}
                       control={control}
                       render={({ field }) => <Input type='date' {...field} />}
                     />
@@ -42,7 +50,7 @@ const FormRenderer: React.FC<FormRendererProps> = ({formSchema,onSave}) => {
                     <div key={q.id}>
                     <label htmlFor={q.id}>{q.label} : </label>
                     <Controller
-                      name={q.id}
+                      name={q.qstnUuid}
                       control={control}
                       render={({ field }) => <Input type='text' {...field} />}
                     />
@@ -52,9 +60,9 @@ const FormRenderer: React.FC<FormRendererProps> = ({formSchema,onSave}) => {
                 case 'number':
                     formControl = (
                       <div key={q.id}>
-                      <label htmlFor={q.id}>{q.label} : </label>
+                      <label htmlFor={q.qstnUuid}>{q.label} : </label>
                       <Controller
-                      name={q.id}
+                      name={q.qstnUuid}
                       control={control}
                       render={({ field }) => <Input type='number' {...field} />}
                     />

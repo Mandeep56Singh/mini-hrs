@@ -20,9 +20,10 @@ const EncounterForm: React.FC = ()=>{
 
     const handleSaveForm = (formData: any)=>{
          const payload = {
-            ...formData,
-            encounterUuid: data.encounterUuid
+            encounterUuid: data.encounterUuid,
+            answers: formData
          };
+         console.log('payload', payload);
          return;
     };
     return(
