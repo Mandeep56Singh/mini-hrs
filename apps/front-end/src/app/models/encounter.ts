@@ -23,4 +23,14 @@ export interface Encounter {
   visit: {
     uuid: string;
   };
+  answers?: {
+    uuid: string;
+    valueText: string;
+    valueDateTime: string;
+    valueNumber: number;
+    question: {
+      uuid: string;
+      question: string;
+    };
+  }[];
 }

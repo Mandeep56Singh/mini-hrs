@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { getFormByEncounterType } from "../../forms/form-service";
 import { FormSchema } from "../../forms/types";
 import FormRenderer from "../../forms/form-renderer/form-renderer";
@@ -14,6 +14,7 @@ const EncounterForm: React.FC = ()=>{
         visitUuid: string;
         encounterUuid: string;
     };
+    const navigate = useNavigate();
     const [form,setForm] = useState<FormSchema>();
     useEffect(()=>{
         const f = getFormByEncounterType(data.encounterTypeUuid);
@@ -25,15 +26,17 @@ const EncounterForm: React.FC = ()=>{
             encounterUuid: data.encounterUuid,
             answers: formData
          };
-         console.log('payload', payload);
          addEncounterAnswers(payload);
     };
     const addEncounterAnswers = (payload: EncounterAnswers)=>{
          createEncounterAnswers(payload).then((result)=>{
-            console.log('result', result);
+            redirectToVisits();
          }).catch((error)=>{
             console.log('error', error);
-         });;
+         });
+    };
+    const redirectToVisits = ()=>{
+        navigate(`../${data.uuid}/visits`)
     };
     return(
     <div>

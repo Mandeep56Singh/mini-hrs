@@ -45,11 +45,6 @@ const Visits: React.FC = () => {
   }, [data,newEncounter,newVisit,completedVisit]);
   const items: TabsProps['items'] = [
     {
-      key: 'newVisit',
-      label: `New Visit`,
-      children: <NewVisit patientUuid={data.uuid} onNewVisitCreated = {newVisitsHandler}/>,
-    },
-    {
       key: 'active-visits',
       label: `Active Visits`,
       children: <PatientVisits 
@@ -71,12 +66,17 @@ const Visits: React.FC = () => {
          onCompleteVisit = { completeVisitHandler}
          />,
     },
+    {
+      key: 'newVisit',
+      label: `New Visit`,
+      children: <NewVisit patientUuid={data.uuid} onNewVisitCreated = {newVisitsHandler}/>,
+    },
   ];
   return (
     <Row>
       <Col span={22}>
         <h4>Visits</h4>
-        <Tabs defaultActiveKey="1" items={items} />
+        <Tabs defaultActiveKey="active-visits" items={items} />
       </Col>
     </Row>
   );

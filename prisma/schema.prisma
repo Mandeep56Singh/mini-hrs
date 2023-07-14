@@ -136,7 +136,7 @@ model Encounter {
   updatedAt       DateTime      @updatedAt
   visit           Visit         @relation(fields: [visitId], references: [id])
   visitId         Int
-  Answer          Answer[]
+  answers         Answer[]
 }
 
 model ProgramEnrollment {

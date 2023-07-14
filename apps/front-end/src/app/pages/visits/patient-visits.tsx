@@ -20,7 +20,7 @@ const PatientVisits: React.FC<{
 }) => {
  
   const [selectedVisit, setSelectedVisit] = useState<Visit>();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -73,19 +73,19 @@ const PatientVisits: React.FC<{
                   <Descriptions.Item label="Location">{v.location.name}</Descriptions.Item>
               </Descriptions>
               { displayActionButton(v)}
-          {v.encounters.length> 0 && <EncounterList encounters={v.encounters} />}
+          {v.encounters.length> 0 && <EncounterList encounters={v.encounters}/>}
          
           </Card>
         );
       })}
 
-      <CreateEnconterModal
+      {selectedVisit ? <CreateEnconterModal
         patientUuid={patientUuid}
         visit={selectedVisit}
         isModalOpen={isModalOpen}
         handleCancel={handleCancel}
         onNewEncounter = { onNewEncounter }
-      />
+      />: ''}
     </Space>
   );
 };

@@ -126,6 +126,20 @@ export class VisitsService {
                 uuid: true,
               },
             },
+            answers: {
+              select: {
+                uuid: true,
+                valueText: true,
+                valueDateTime: true,
+                valueNumber: true,
+                question: {
+                  select: {
+                    uuid: true,
+                    question: true,
+                  },
+                },
+              },
+            },
           },
         },
       },

@@ -1,10 +1,11 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import TableList from '../table-list/table-list';
 import { Button } from 'antd';
 import { Encounter } from '../../models/encounter';
 import { formatDate } from '../../utils/date-formatter';
 import { EyeOutlined, EditOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import ViewEncounterModal from './view-encounter-modal';
 
 
 const columns = [
@@ -34,8 +35,12 @@ const EncounterList: React.FC<{
   encounters: Encounter[];
 }> = ({ encounters }) => {
   const navigate = useNavigate();
-  const onClickHandler =  (encounterUuid: string): void => {
-    return;
+  const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
+  const [selectedEncounter, setSelectedEncounter] = useState<Encounter>();
+
+  const viewEncounterHandler =  (encounter: Encounter): void => {
+    setSelectedEncounter(encounter);
+    setIsViewModalOpen(true)
   };
 
   const onClickEditHandler = (visitUuid: string,encounterTypeUuid: string,encounterUuid: string)=>{
@@ -43,8 +48,13 @@ const EncounterList: React.FC<{
 
   };
 
+  const cancelViewModal = ()=>{
+   setIsViewModalOpen(false);
+  };
+
 
   return (
+    <>
     <TableList
       cols={columns}
       data={encounters.map((e) => {
@@ -57,7 +67,7 @@ const EncounterList: React.FC<{
             <>
             <Button
               type="default"
-              onClick={() => onClickHandler(e.uuid)}
+              onClick={() => viewEncounterHandler(e)}
             >
             <EyeOutlined />
            
@@ -73,6 +83,12 @@ const EncounterList: React.FC<{
         };
       })}
     />
+    {selectedEncounter? <ViewEncounterModal 
+    isModalOpen={isViewModalOpen} 
+    handleCancel={cancelViewModal} 
+    encounter={selectedEncounter}
+    />: ''}
+    </>
   );
 };
 
