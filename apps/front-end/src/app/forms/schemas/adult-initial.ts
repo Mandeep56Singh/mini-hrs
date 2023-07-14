@@ -6,19 +6,19 @@ export const AdultInitialForm: FormSchema = {
   questions: [
     {
       id: 'visitDate',
-      qstnUuid: '78dff347-125d-40a8-8fb5-95c7bf255759',
+      qstnUuid: '45b6a527-bf05-4312-85f3-4b5298c50e09',
       label: 'Visit Date',
       type: 'date',
     },
     {
       id: 'height',
-      qstnUuid: '98411ca6-c571-4453-8f6c-10ecf5ffe36f',
+      qstnUuid: '229ea125-24ce-4fbd-9f6c-8bb6847b95ef',
       label: 'Height',
       type: 'number',
     },
     {
       id: 'weight',
-      qstnUuid: '2d4b60b6-da99-44d1-bdaf-63d0423d8eb3',
+      qstnUuid: '1c1fbf52-a5b6-47cd-be60-e84343db299d',
       label: 'Weight',
       type: 'number',
     },

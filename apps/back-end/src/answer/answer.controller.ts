@@ -32,21 +32,19 @@ export class AnswerController {
     return this.answerService.findByEncounterId(encounterId);
   }
   async createOne(ans: AnsDto, encounterId: number) {
-    const { answer, questionUuid, answerType } = ans;
-    const qstn = await this.qstnService.findIdFromUuid(questionUuid);
+    const { answer, questionUuid } = ans;
+    const qstn = await this.qstnService.findByUuid(questionUuid);
     const questionId = qstn.id;
-    const ansType = await this.ansTypeService.findIdByName(answerType);
-    const answerTypeId = ansType.id;
+    const ansType = qstn.answerType;
     const payload: AnswerDto = {
       questionId: questionId,
-      answerTypeId: answerTypeId,
       encounterId: encounterId,
     };
-    if (answerType === 'Text') {
+    if (ansType.name === 'Text') {
       payload['valueText'] = answer as string;
-    } else if (answerType === 'Number') {
+    } else if (ansType.name === 'Number') {
       payload['valueNumber'] = parseInt(answer as string);
-    } else if (answerType === 'Date' || answerType === 'Datetime') {
+    } else if (ansType.name === 'Date' || ansType.name === 'DateTime') {
       payload['valueDateTime'] = new Date(answer as unknown as Date);
     }
     return this.answerService.createOne(payload);

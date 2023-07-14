@@ -3,6 +3,8 @@ import { useLoaderData } from 'react-router-dom';
 import { getFormByEncounterType } from "../../forms/form-service";
 import { FormSchema } from "../../forms/types";
 import FormRenderer from "../../forms/form-renderer/form-renderer";
+import { createEncounterAnswers } from "../../resources/answers.resource";
+import { EncounterAnswers } from "../../models/answer";
 
 
 const EncounterForm: React.FC = ()=>{
@@ -24,7 +26,14 @@ const EncounterForm: React.FC = ()=>{
             answers: formData
          };
          console.log('payload', payload);
-         return;
+         addEncounterAnswers(payload);
+    };
+    const addEncounterAnswers = (payload: EncounterAnswers)=>{
+         createEncounterAnswers(payload).then((result)=>{
+            console.log('result', result);
+         }).catch((error)=>{
+            console.log('error', error);
+         });;
     };
     return(
     <div>

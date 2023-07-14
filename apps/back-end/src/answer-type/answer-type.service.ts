@@ -25,4 +25,14 @@ export class AnswerTypeService {
       },
     });
   }
+  findIdByUuid(uuid: string) {
+    return this.prismaService.answerType.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
 }

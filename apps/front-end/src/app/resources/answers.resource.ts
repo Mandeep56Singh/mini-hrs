@@ -1,14 +1,12 @@
 import { getApiUrl } from '../config/config.service';
-import { CreateEncounterPayLoad, Encounter } from '../models/encounter';
+import { EncounterAnswers } from '../models/answer';
 import { customAxios } from './http-requests/custom-axios';
 
 function getBaseUrl() {
-  return getApiUrl() + `/encounters`;
+  return getApiUrl() + `/answer`;
 }
-// creates initial empty encounter
-export async function createEncounter(
-  payload: CreateEncounterPayLoad
-): Promise<Encounter> {
+
+export async function createEncounterAnswers(payload: EncounterAnswers) {
   const url = getBaseUrl();
   const resp = await customAxios.post(url, {
     ...payload,
