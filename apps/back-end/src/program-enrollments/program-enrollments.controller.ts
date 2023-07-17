@@ -7,6 +7,7 @@ import {
   Query,
   Param,
   UseGuards,
+  ForbiddenException,
 } from '@nestjs/common';
 import { ProgramEnrollmentsService } from './program-enrollments.service';
 import {
@@ -49,6 +50,18 @@ export class ProgramEnrollmentsController {
     const patient = await this.patientService.findIdFromUuid(patientUuid);
     const program = await this.programsService.findIdFromUuid(programUuid);
     const location = await this.locationService.findIdFromUuid(locationUuid);
+
+    const activeProgramEnrollmentCount =
+      await this.programEnrollmentService.findPatientProgramEnrolmentCount(
+        patient.id,
+        program.id
+      );
+
+    if (activeProgramEnrollmentCount > 0) {
+      throw new ForbiddenException(
+        'Patient is already enrolled in the program. Please complete current active enrollment'
+      );
+    }
 
     const newEnrollmentBody: CreateEnrollmentBody = {
       patientId: patient.id,

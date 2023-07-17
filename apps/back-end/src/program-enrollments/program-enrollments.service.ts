@@ -111,4 +111,16 @@ export class ProgramEnrollmentsService {
       },
     });
   }
+  findPatientProgramEnrolmentCount(patientId: number, programId: number) {
+    return this.prismaService.programEnrollment.count({
+      where: {
+        patientId: patientId,
+        programId: programId,
+        voided: false,
+        endDate: {
+          not: null,
+        },
+      },
+    });
+  }
 }

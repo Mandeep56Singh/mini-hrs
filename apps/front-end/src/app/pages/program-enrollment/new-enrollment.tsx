@@ -5,6 +5,7 @@ import { Location } from '../../models/location';
 import { enroll } from '../../resources/program-enrollment.resource';
 import { ProgramEnrollmentPayload, PatientProgramEnrollment } from '../../models/program-enrollment';
 import { AlertMessage } from '../../models/alert-message';
+import { getErrorMessage } from '../../utils/error-message-helper';
 
 const NewEnrollment: React.FC<{
   programs: Program[];
@@ -42,14 +43,14 @@ const NewEnrollment: React.FC<{
       };
       
       onNewEnrollment(result);
-    }catch(e){
+    }catch(e: any){
+      const errorMsg = getErrorMessage(e);
       msg = {
            type: 'error',
-           message: 'An error occured. Please retry'
+           message: errorMsg.errorText || 'An error occured. Please retry'
       };
     }
     setEnrollMessage(msg);
-    resetFormFields();
    
   };
   const programChangeHandler = (v: string) => {
@@ -57,10 +58,6 @@ const NewEnrollment: React.FC<{
   };
   const locationChangeHandler = (v: string) => {
     setSelectedLocation(v);
-  };
-  const resetFormFields = ()=>{
-    setSelectedProgram('');
-    setSelectedLocation('');
   };
   const isInputValid = ()=>{
       if(selectedProgram === '' || selectedLocation === ''){

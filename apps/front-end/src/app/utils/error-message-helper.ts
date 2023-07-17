@@ -2,7 +2,7 @@ import { AxiosErrorResponse } from '../models/request';
 
 export const getErrorMessage = (errorResp: AxiosErrorResponse) => {
   const resp = errorResp.response || '';
-  const { status, statusText } = resp;
+  const { status, statusText, data } = resp;
   let errorText = '';
 
   switch (status) {
@@ -10,7 +10,7 @@ export const getErrorMessage = (errorResp: AxiosErrorResponse) => {
       errorText = 'Unauthorized, please log in';
       break;
     default:
-      errorText = statusText;
+      errorText = data?.message || statusText;
   }
 
   return {
