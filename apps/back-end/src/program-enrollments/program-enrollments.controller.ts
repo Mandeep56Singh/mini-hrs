@@ -52,7 +52,7 @@ export class ProgramEnrollmentsController {
     const location = await this.locationService.findIdFromUuid(locationUuid);
 
     const activeProgramEnrollmentCount =
-      await this.programEnrollmentService.findPatientProgramEnrolmentCount(
+      await this.programEnrollmentService.findActivePatientProgramEnrolmentCount(
         patient.id,
         program.id
       );
