@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tabs } from 'antd';
-import type { TabsProps } from 'antd';
+import { Tabs, TabsProps } from 'antd';
 import { Row, Col } from 'antd';
 import { useLoaderData } from 'react-router-dom';
 import NewVisit from './new-visit';

@@ -10,6 +10,8 @@ import ProgramEnrollment from '../pages/program-enrollment/program-enrollment';
 import PatientInfo from '../components/patient-info/patient-info';
 import SignUpPage from '../pages/sign-up/sign-up';
 import EncounterForm from '../components/encounters/encounter-form';
+import FormDashboard from '../pages/form-dashboard/form-dashboard';
+import Questions from '../pages/questions/questions';
 
 export const appRouter = createBrowserRouter([
   {
@@ -64,6 +66,16 @@ export const appRouter = createBrowserRouter([
         loader: ({ params }) => {
           return params;
         },
+      },
+    ],
+  },
+  {
+    path: 'form-dashboard',
+    element: <FormDashboard />,
+    children: [
+      {
+        path: 'questions',
+        element: <Questions />,
       },
     ],
   },

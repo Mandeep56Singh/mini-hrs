@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { Menu } from 'antd';
-import { UserOutlined, LogoutOutlined, SettingOutlined, SearchOutlined, HomeOutlined, ProfileOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  SearchOutlined,
+  HomeOutlined,
+  ProfileOutlined,
+  FormOutlined,
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { getItem } from '../../resources/local-storage.resource';
@@ -17,30 +25,35 @@ export function NavigationComponent(props: NavigationComponentProps) {
   const onClick: MenuProps['onClick'] = (e) => {
     setCurrent(e.key);
   };
-  const handleLogout = ()=>{
-     logOut();
-     navigate('/login');
+  const handleLogout = () => {
+    logOut();
+    navigate('/login');
   };
   const items: MenuProps['items'] = [
     {
       label: <Link to="/">HRS</Link>,
       key: 'home',
-      icon: <HomeOutlined />
+      icon: <HomeOutlined />,
     },
     {
       label: <Link to="/patient-search">Search</Link>,
       key: 'patient-search',
-      icon: <SearchOutlined />
+      icon: <SearchOutlined />,
+    },
+    {
+      label: <Link to="/form-dashboard">Forms</Link>,
+      key: 'form-dashboard',
+      icon: <FormOutlined />,
     },
     {
       label: <Link to="/">Profile</Link>,
       key: 'profile',
-      icon: <ProfileOutlined />
+      icon: <ProfileOutlined />,
     },
     {
       label: <Link to="/">Settings</Link>,
       key: 'settings',
-      icon: <SettingOutlined />
+      icon: <SettingOutlined />,
     },
     {
       label: currentUser ? currentUser : '',
@@ -51,7 +64,7 @@ export function NavigationComponent(props: NavigationComponentProps) {
       label: <Link to="/">Logout</Link>,
       key: 'logout',
       icon: <LogoutOutlined />,
-      onClick: ()=> handleLogout()
+      onClick: () => handleLogout(),
     },
   ];
   return (
