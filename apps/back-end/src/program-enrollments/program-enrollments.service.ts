@@ -48,6 +48,7 @@ export class ProgramEnrollmentsService {
           uuid: patientUuid,
         },
         endDate: completed ? { not: null } : null,
+        voided: false,
       },
       select: {
         uuid: true,
@@ -97,9 +98,8 @@ export class ProgramEnrollmentsService {
     return this.prismaService.programEnrollment.count({
       where: {
         patientId: patientId,
-        endDate: {
-          not: null,
-        },
+        voided: false,
+        endDate: null,
       },
     });
   }
@@ -107,7 +107,10 @@ export class ProgramEnrollmentsService {
     return this.prismaService.programEnrollment.count({
       where: {
         patientId: patientId,
-        endDate: null,
+        voided: false,
+        endDate: {
+          not: null,
+        },
       },
     });
   }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, Card, Space } from 'antd';
+import { Button, Card, Space, Alert } from 'antd';
 import { Visit } from '../../models/visit';
 import { formatDate } from '../../utils/date-formatter';
 import CreateEnconterModal from '../../components/encounters/create-encounter-modal';
@@ -8,6 +8,8 @@ import EncounterList from '../../components/encounters/encounter-list.component'
 import { Descriptions } from 'antd';
 import { endVisit } from '../../resources/visit-resource';
 import { Encounter } from '../../models/encounter';
+import { AlertMessage } from '../../models/alert-message';
+import { getErrorMessage } from '../../utils/error-message-helper';
 
 const PatientVisits: React.FC<{ 
   patientVisits: Visit[];
@@ -21,6 +23,7 @@ const PatientVisits: React.FC<{
  
   const [selectedVisit, setSelectedVisit] = useState<Visit>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [visitMsg,setVisitMsg] = useState<AlertMessage>();
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -30,8 +33,28 @@ const PatientVisits: React.FC<{
 
   const endVisitHandler = async (visitUuid: string) => {
     const visitEnd = new Date();
-    const completedVisit = await endVisit(visitUuid, visitEnd);
-    onCompleteVisit(completedVisit);
+    let msg: AlertMessage = {
+      message: '',
+      type: 'info'
+    };
+    try{
+      const completedVisit = await endVisit(visitUuid, visitEnd);
+      msg = {
+        message: 'Visit has been completed succesfully',
+        type: 'success'
+      };
+    
+      onCompleteVisit(completedVisit);
+    }catch(e: any){
+        const errorMsg = getErrorMessage(e);
+        msg = {
+          message: errorMsg.errorText,
+          type: 'error'
+        };
+    }
+
+    setVisitMsg(msg);
+    
   };
 
 
@@ -61,6 +84,15 @@ const PatientVisits: React.FC<{
 
   return (
     <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+      {visitMsg && visitMsg.message.length > 0 ? (
+            <Alert
+              message={visitMsg.message}
+              type={visitMsg.type}
+              showIcon
+            />
+          ) : (
+            ''
+      )}
       {patientVisits.map((v) => {
         return (
           <Card
