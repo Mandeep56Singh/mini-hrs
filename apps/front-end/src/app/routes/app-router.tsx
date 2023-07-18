@@ -12,6 +12,7 @@ import SignUpPage from '../pages/sign-up/sign-up';
 import EncounterForm from '../components/encounters/encounter-form';
 import FormDashboard from '../pages/form-dashboard/form-dashboard';
 import Questions from '../pages/questions/questions';
+import AnswerType from '../pages/answer-type/answer-type';
 
 export const appRouter = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const appRouter = createBrowserRouter([
       {
         path: 'questions',
         element: <Questions />,
+      },
+      {
+        path: 'answer-type',
+        element: <AnswerType />,
       },
     ],
   },
