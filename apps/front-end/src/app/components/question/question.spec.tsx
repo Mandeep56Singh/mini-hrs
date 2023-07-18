@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import Question from './question';
+import Question from './question-list';
 
 describe('Question', () => {
   it('should render successfully', () => {

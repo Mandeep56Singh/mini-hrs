@@ -5,7 +5,18 @@ import { PrismaService } from '../app/prisma/prisma.service';
 export class QuestionService {
   constructor(private prismaService: PrismaService) {}
   findAll() {
-    return this.prismaService.question.findMany();
+    return this.prismaService.question.findMany({
+      select: {
+        uuid: true,
+        question: true,
+        answerType: {
+          select: {
+            uuid: true,
+            name: true,
+          },
+        },
+      },
+    });
   }
   createOne(q: { question: string; answerTypeId: number }) {
     return this.prismaService.question.create({

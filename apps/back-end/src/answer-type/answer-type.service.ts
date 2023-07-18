@@ -6,7 +6,15 @@ import { PrismaService } from '../app/prisma/prisma.service';
 export class AnswerTypeService {
   constructor(private prismaService: PrismaService) {}
   findAll() {
-    return this.prismaService.answerType.findMany();
+    return this.prismaService.answerType.findMany({
+      select: {
+        uuid: true,
+        name: true,
+      },
+      where: {
+        voided: false,
+      },
+    });
   }
   createOne(name: string): Promise<AnswerType> {
     return this.prismaService.answerType.create({

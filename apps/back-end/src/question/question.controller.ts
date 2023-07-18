@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { Question } from '@prisma/client';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { QuestionDto } from './dtos/create-question.dto';
 import { CreateQuestionDto } from './dtos/create-question.dto';
 import { QuestionService } from './question.service';
 import { AnswerTypeService } from '../answer-type/answer-type.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('question')
 export class QuestionController {
   constructor(
@@ -11,7 +13,7 @@ export class QuestionController {
     private ansTypeService: AnswerTypeService
   ) {}
   @Get()
-  findAll(): Promise<Question[]> {
+  findAll(): Promise<QuestionDto[]> {
     return this.questionService.findAll();
   }
 

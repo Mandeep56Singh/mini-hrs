@@ -1,15 +1,26 @@
 import React from 'react';
 import { Tabs, TabsProps } from 'antd';
 import { Row, Col } from 'antd';
-import Question from '../../components/question/question';
+import QuestionList from '../../components/question/question-list';
 import NewQuestion from '../../components/question/new-question';
+import { useQuestions } from '../../resources/hooks/use-question';
+import ErrorAlert from '../../components/error/error-alert';
+import Loader from '../../components/loader/loader';
 
 const Questions: React.FC = () => {
+  const { questions, error, isLoading, isError } = useQuestions();
+
+  if (isError) {
+    return <ErrorAlert error={error} />;
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
   const items: TabsProps['items'] = [
     {
       key: 'questions',
       label: `Questions`,
-      children: <Question />,
+      children: <QuestionList questions={questions} />,
     },
     {
       key: 'new-question',
