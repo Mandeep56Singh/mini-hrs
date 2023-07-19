@@ -90,6 +90,7 @@ model EncounterType {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   encounters  Encounter[]
+  forms       Form[]
 }
 
 model Location {
@@ -205,10 +206,12 @@ model Answer {
 }
 
 model Form {
-  id        Int      @id @default(autoincrement())
-  name      String
-  uuid      String   @default(uuid())
-  voided    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int           @id @default(autoincrement())
+  name            String        @unique
+  encounterType   EncounterType @relation(fields: [encounterTypeId], references: [id])
+  encounterTypeId Int
+  uuid            String        @default(uuid())
+  voided          Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }

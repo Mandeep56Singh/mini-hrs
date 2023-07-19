@@ -21,6 +21,11 @@ const FormList: React.FC = () => {
       key: 'form',
     },
     {
+      title: 'Encounter Type',
+      dataIndex: 'encounterType',
+      key: 'encounterType',
+    },
+    {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
@@ -33,6 +38,7 @@ const FormList: React.FC = () => {
         return {
           key: form.uuid,
           form: form.name,
+          encounterType: form.encounterType.name,
           action: '',
         };
       })}

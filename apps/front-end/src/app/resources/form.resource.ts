@@ -10,6 +10,7 @@ export async function createForm(payload: CreateFormDto) {
   const url = getBaseUrl();
   const resp = await customAxios.post(url, {
     name: payload.name,
+    encounterTypeUuid: payload.encounterTypeUuid,
   });
   return resp.data;
 }
