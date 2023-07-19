@@ -13,6 +13,7 @@ import EncounterForm from '../components/encounters/encounter-form';
 import FormDashboard from '../pages/form-dashboard/form-dashboard';
 import Questions from '../pages/questions/questions';
 import AnswerType from '../pages/answer-type/answer-type';
+import Forms from '../pages/forms/forms';
 
 export const appRouter = createBrowserRouter([
   {
@@ -81,6 +82,10 @@ export const appRouter = createBrowserRouter([
       {
         path: 'answer-type',
         element: <AnswerType />,
+      },
+      {
+        path: 'forms',
+        element: <Forms />,
       },
     ],
   },

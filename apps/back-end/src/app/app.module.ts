@@ -17,6 +17,7 @@ import { AuthModule } from '../auth/auth.module';
 import { QuestionModule } from '../question/question.module';
 import { AnswerTypeModule } from '../answer-type/answer-type.module';
 import { AnswerModule } from '../answer/answer.module';
+import { FormModule } from '../form/form.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AnswerModule } from '../answer/answer.module';
     QuestionModule,
     AnswerTypeModule,
     AnswerModule,
+    FormModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
