@@ -55,4 +55,14 @@ export class FormService {
       },
     });
   }
+  findIdFromUuid(uuid: string) {
+    return this.prismaService.form.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
 }

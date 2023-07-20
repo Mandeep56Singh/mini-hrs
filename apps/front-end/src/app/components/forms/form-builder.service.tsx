@@ -4,7 +4,6 @@ export const getFormControl = (controlType: string, controlProperties: any) => {
   let formControl: any;
   switch (controlType) {
     case 'Text':
-      console.log('properties', { ...controlProperties });
       formControl = <Input type="text" {...controlProperties} />;
       break;
     case 'Number':

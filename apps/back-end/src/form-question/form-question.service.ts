@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../app/prisma/prisma.service';
+import { CreateFormQuestionsPayload } from './dtos/create-form-question.dto';
 
 @Injectable()
 export class FormQuestionService {
@@ -21,6 +22,12 @@ export class FormQuestionService {
           },
         },
       },
+    });
+  }
+  createMany(formQuestions: CreateFormQuestionsPayload[]) {
+    return this.prismaService.formQuestion.createMany({
+      data: formQuestions,
+      skipDuplicates: true,
     });
   }
 }

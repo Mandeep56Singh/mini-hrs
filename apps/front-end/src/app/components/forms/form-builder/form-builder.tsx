@@ -8,6 +8,9 @@ import { Row, Col, Select, Form, Button, Alert } from 'antd';
 import { getFormControl } from '../form-builder.service';
 import { AlertMessage } from '../../../models/alert-message';
 import './form-builder.css';
+import { CreateFormQuestionDto } from '../../../models/form-question';
+import { createFormQuestion } from '../../../resources/form-question.resource';
+import { getErrorMessage } from '../../../utils/error-message-helper';
 
 /* eslint-disable-next-line */
 export interface FormBuilderProps {}
@@ -21,8 +24,33 @@ export function FormBuilder(props: FormBuilderProps) {
   const [atMsg, setAtMsg] = useState<AlertMessage>();
   const [selectedQuestionUuid, setSelectedQstn] = useState<string>('');
 
-  const onFinish = (values: any) => {
-    console.log('finish...', dynamicQstns);
+  const onFinish = async (values: any) => {
+    let alertMsg: AlertMessage = {
+      message: '',
+      type: 'info',
+    };
+    const payload: CreateFormQuestionDto = {
+      formUuid: data.formUuid,
+      questions: dynamicQstns.map((q) => {
+        return {
+          questionUuid: q.uuid,
+        };
+      }),
+    };
+    try {
+      await createFormQuestion(payload);
+      alertMsg = {
+        message: 'Form Questions have been added successfully',
+        type: 'success',
+      };
+    } catch (e: any) {
+      const errorMsg = getErrorMessage(e);
+      alertMsg = {
+        message: errorMsg.errorText,
+        type: 'error',
+      };
+    }
+    setAtMsg(alertMsg);
   };
   const addDynamicQuestion = () => {
     let alertMsg: AlertMessage = {
