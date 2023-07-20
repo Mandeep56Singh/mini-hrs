@@ -169,15 +169,16 @@ model User {
 }
 
 model Question {
-  id           Int        @id @default(autoincrement())
-  question     String
-  answerType   AnswerType @relation(fields: [answerTypeId], references: [id])
-  answerTypeId Int
-  uuid         String     @default(uuid())
-  voided       Boolean    @default(false)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  answers      Answer[]
+  id            Int            @id @default(autoincrement())
+  question      String
+  answerType    AnswerType     @relation(fields: [answerTypeId], references: [id])
+  answerTypeId  Int
+  uuid          String         @default(uuid())
+  voided        Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  answers       Answer[]
+  formQuestions FormQuestion[]
 }
 
 model AnswerType {
@@ -206,12 +207,25 @@ model Answer {
 }
 
 model Form {
-  id              Int           @id @default(autoincrement())
-  name            String        @unique
-  encounterType   EncounterType @relation(fields: [encounterTypeId], references: [id])
+  id              Int            @id @default(autoincrement())
+  name            String         @unique
+  encounterType   EncounterType  @relation(fields: [encounterTypeId], references: [id])
   encounterTypeId Int
-  uuid            String        @default(uuid())
-  voided          Boolean       @default(false)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  uuid            String         @default(uuid())
+  voided          Boolean        @default(false)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  formQuestions   FormQuestion[]
+}
+
+model FormQuestion {
+  id         Int      @id @default(autoincrement())
+  form       Form     @relation(fields: [formId], references: [id])
+  formId     Int
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  uuid       String   @default(uuid())
+  voided     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

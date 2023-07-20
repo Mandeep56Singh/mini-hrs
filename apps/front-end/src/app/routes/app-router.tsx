@@ -14,6 +14,7 @@ import FormDashboard from '../pages/form-dashboard/form-dashboard';
 import Questions from '../pages/questions/questions';
 import AnswerType from '../pages/answer-type/answer-type';
 import Forms from '../pages/forms/forms';
+import FormBuilder from '../components/forms/form-builder/form-builder';
 
 export const appRouter = createBrowserRouter([
   {
@@ -86,6 +87,14 @@ export const appRouter = createBrowserRouter([
       {
         path: 'forms',
         element: <Forms />,
+      },
+      {
+        path: 'forms/:formUuid',
+        element: <FormBuilder />,
+        loader: ({ params }) => {
+          console.log('params', params);
+          return params;
+        },
       },
     ],
   },

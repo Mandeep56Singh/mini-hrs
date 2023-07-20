@@ -33,4 +33,26 @@ export class FormService {
       },
     });
   }
+  findFormQuestionsByUuid(uuid: string) {
+    return this.prismaService.form.findFirstOrThrow({
+      where: {
+        uuid: uuid,
+      },
+      select: {
+        uuid: true,
+        name: true,
+        formQuestions: {
+          select: {
+            uuid: true,
+            question: {
+              select: {
+                uuid: true,
+                question: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 }

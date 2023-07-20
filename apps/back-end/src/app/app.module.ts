@@ -18,6 +18,7 @@ import { QuestionModule } from '../question/question.module';
 import { AnswerTypeModule } from '../answer-type/answer-type.module';
 import { AnswerModule } from '../answer/answer.module';
 import { FormModule } from '../form/form.module';
+import { FormQuestionModule } from '../form-question/form-question.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { FormModule } from '../form/form.module';
     AnswerTypeModule,
     AnswerModule,
     FormModule,
+    FormQuestionModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
