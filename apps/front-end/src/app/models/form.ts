@@ -10,4 +10,14 @@ export interface Form {
     uuid: string;
     name: string;
   };
+  formQuestions: {
+    question: {
+      uuid: string;
+      question: string;
+      answerType: {
+        name: string;
+        uuid: string;
+      };
+    };
+  }[];
 }

@@ -19,6 +19,22 @@ export class FormService {
             name: true,
           },
         },
+        formQuestions: {
+          select: {
+            question: {
+              select: {
+                uuid: true,
+                question: true,
+                answerType: {
+                  select: {
+                    name: true,
+                    uuid: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       where: {
         voided: false,
