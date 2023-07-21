@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { Form } from '@prisma/client';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { EncounterTypesService } from '../encounter-types/encounter-types.service';
@@ -28,5 +28,14 @@ export class FormController {
       encounterTypeId: encounterType.id,
     };
     return this.formsService.create(payload);
+  }
+  @Get('encounter-type/:encounterTypeUuid')
+  async findFormByEncounterType(@Param() param: { encounterTypeUuid: string }) {
+    const { encounterTypeUuid } = param;
+    const encounterType = await this.encounterTypeService.findIdFromUuid(
+      encounterTypeUuid
+    );
+    const encounterTypeId = encounterType.id;
+    return this.formsService.findFormByEncounterTypeId(encounterTypeId);
   }
 }

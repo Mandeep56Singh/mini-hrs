@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { getFormByEncounterType } from '../forms/form-service';
-import { FormSchema } from '../forms/types';
 import FormRenderer from '../forms/form-renderer/form-renderer';
 import { createEncounterAnswers } from '../../resources/answers.resource';
 import { EncounterAnswers } from '../../models/answer';
+import { useEncounterTypeForm } from '../../resources/hooks/use-encounter-type-form';
+import Loader from '../loader/loader';
+import ErrorAlert from '../error/error-alert';
 
 const EncounterForm: React.FC = () => {
   const data = useLoaderData() as {
@@ -14,11 +15,15 @@ const EncounterForm: React.FC = () => {
     encounterUuid: string;
   };
   const navigate = useNavigate();
-  const [form, setForm] = useState<FormSchema>();
-  useEffect(() => {
-    const f = getFormByEncounterType(data.encounterTypeUuid);
-    setForm(f);
-  }, [data.encounterTypeUuid]);
+  const { form, isError, isLoading, error } = useEncounterTypeForm(
+    data.encounterTypeUuid
+  );
+  if (isError) {
+    return <ErrorAlert error={error} />;
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   const handleSaveForm = (formData: any) => {
     const payload = {
@@ -41,7 +46,7 @@ const EncounterForm: React.FC = () => {
   };
   return (
     <div>
-      {form ? <FormRenderer formSchema={form} onSave={handleSaveForm} /> : ''}
+      {form ? <FormRenderer form={form} onSave={handleSaveForm} /> : ''}
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Input, Button, Col, Row } from 'antd';
-// import { FormSchema } from '../types';
 import { Form } from '../../../models/form';
 import Loader from '../../loader/loader';
 

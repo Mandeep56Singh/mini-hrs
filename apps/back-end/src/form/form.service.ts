@@ -81,4 +81,32 @@ export class FormService {
       },
     });
   }
+  findFormByEncounterTypeId(encounterTypeId: number) {
+    return this.prismaService.form.findFirstOrThrow({
+      where: {
+        encounterTypeId: encounterTypeId,
+      },
+      select: {
+        uuid: true,
+        name: true,
+        formQuestions: {
+          select: {
+            uuid: true,
+            question: {
+              select: {
+                uuid: true,
+                question: true,
+                answerType: {
+                  select: {
+                    name: true,
+                    uuid: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 }
