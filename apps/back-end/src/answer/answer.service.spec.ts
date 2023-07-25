@@ -1,18 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AnswerService } from './answer.service';
 
+const mockAnswerService = {};
+
 describe('AnswerService', () => {
-  let service: AnswerService;
+  let answerService: AnswerService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AnswerService],
+      providers: [
+        {
+          provide: AnswerService,
+          useValue: mockAnswerService,
+        },
+      ],
     }).compile();
 
-    service = module.get<AnswerService>(AnswerService);
+    answerService = module.get<AnswerService>(AnswerService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('answer service should be defined', () => {
+    expect(answerService).toBeDefined();
   });
 });

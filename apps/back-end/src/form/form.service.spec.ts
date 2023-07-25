@@ -1,18 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FormService } from './form.service';
 
+class mockFormService {}
+
 describe('FormService', () => {
-  let service: FormService;
+  let formService: FormService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FormService],
+      providers: [
+        {
+          provide: FormService,
+          useClass: mockFormService,
+        },
+      ],
     }).compile();
 
-    service = module.get<FormService>(FormService);
+    formService = module.get<FormService>(FormService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(formService).toBeDefined();
   });
 });

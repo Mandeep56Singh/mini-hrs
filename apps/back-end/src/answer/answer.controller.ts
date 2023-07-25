@@ -3,7 +3,6 @@ import { Answer } from '@prisma/client';
 import { AnswerService } from './answer.service';
 import { AnsDto, AnswerDto, CreateAnswerDto } from './dtos/create-answer.dto';
 import { QuestionService } from '../question/question.service';
-import { AnswerTypeService } from '../answer-type/answer-type.service';
 import { EncountersService } from '../encounters/encounters.service';
 
 @Controller('answer')
@@ -11,7 +10,6 @@ export class AnswerController {
   constructor(
     private answerService: AnswerService,
     private qstnService: QuestionService,
-    private ansTypeService: AnswerTypeService,
     private encounterService: EncountersService
   ) {}
   @Get()
