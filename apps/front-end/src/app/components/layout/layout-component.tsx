@@ -6,12 +6,13 @@ import './layout-component.css';
 
 const { Header, Content, Sider } = Layout;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface SideMenuItemsProps{
+interface SideMenuItemsProps {
   sideMenuItems: SideMenuItemsProps;
 }
 
-export const LayoutComponent: React.FC<SideMenuItemsProps> = ({ sideMenuItems }) => {
+export const LayoutComponent: React.FC<SideMenuItemsProps> = ({
+  sideMenuItems,
+}) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();

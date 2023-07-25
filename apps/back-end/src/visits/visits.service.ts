@@ -172,4 +172,11 @@ export class VisitsService {
       },
     });
   }
+  count() {
+    return this.prismaService.visit.count({
+      where: {
+        voided: false,
+      },
+    });
+  }
 }

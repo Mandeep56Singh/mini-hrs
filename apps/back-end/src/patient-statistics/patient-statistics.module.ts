@@ -6,6 +6,9 @@ import { VisitsService } from '../visits/visits.service';
 import { EncountersService } from '../encounters/encounters.service';
 import { ProgramEnrollmentsService } from '../program-enrollments/program-enrollments.service';
 import { PatientsService } from '../patients/patients.service';
+import { ProgramsService } from '../programs/programs.service';
+import { FormService } from '../form/form.service';
+import { LocationsService } from '../locations/locations.service';
 
 @Module({
   controllers: [PatientStatisticsController],
@@ -15,7 +18,10 @@ import { PatientsService } from '../patients/patients.service';
     VisitsService,
     EncountersService,
     ProgramEnrollmentsService,
-    PatientsService
-  ]
+    PatientsService,
+    ProgramsService,
+    FormService,
+    LocationsService,
+  ],
 })
 export class PatientStatisticsModule {}

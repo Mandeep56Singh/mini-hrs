@@ -1,34 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../app/prisma/prisma.service';
-import { createPatientDto, Patient,  SearchPatientResponseDto } from './dtos/patient.dto';
+import {
+  createPatientDto,
+  Patient,
+  SearchPatientResponseDto,
+} from './dtos/patient.dto';
 
 @Injectable()
 export class PatientsService {
   constructor(private prismaService: PrismaService) {}
-  async findAll(): Promise<Patient[]>{
+  async findAll(): Promise<Patient[]> {
     const allPatients = await this.prismaService.patient.findMany({
-      select:{
+      select: {
         uuid: true,
         dob: true,
         gender: true,
-        patientIdentifiers:{
-          select:{
+        patientIdentifiers: {
+          select: {
             identifier: true,
-            uuid: true
-          }
+            uuid: true,
+          },
         },
-        patientNames:{
-          select:{
+        patientNames: {
+          select: {
             uuid: true,
             firstName: true,
-            lastName: true
-          }
-        }
-      }
+            lastName: true,
+          },
+        },
+      },
     });
     return allPatients;
   }
-  async create(body: createPatientDto): Promise<Patient>{
+  async create(body: createPatientDto): Promise<Patient> {
     const newPatient = this.prismaService.patient.create({
       data: {
         gender: body.gender,
@@ -45,54 +49,56 @@ export class PatientsService {
           },
         },
       },
-      select:{
-          uuid: true,
-          dob: true,
-          gender: true,
-          patientNames:{
-            select:{
-              uuid: true,
-              firstName: true,
-              lastName: true
-            }
+      select: {
+        uuid: true,
+        dob: true,
+        gender: true,
+        patientNames: {
+          select: {
+            uuid: true,
+            firstName: true,
+            lastName: true,
           },
-          patientIdentifiers:{
-            select:{
-              uuid: true,
-              identifier: true
-            }
-          }
-      }
+        },
+        patientIdentifiers: {
+          select: {
+            uuid: true,
+            identifier: true,
+          },
+        },
+      },
     });
 
     return newPatient;
   }
-  async findByIdentifier(identifier: string): Promise<SearchPatientResponseDto[]> {
+  async findByIdentifier(
+    identifier: string
+  ): Promise<SearchPatientResponseDto[]> {
     const patients = await this.prismaService.patientIdentifier.findMany({
       where: {
         identifier: identifier,
       },
-      select:{
+      select: {
         patient: {
-          select:{
-           dob: true,
-           gender: true,
-           uuid: true,
-            patientNames:{
-              select:{
+          select: {
+            dob: true,
+            gender: true,
+            uuid: true,
+            patientNames: {
+              select: {
                 uuid: true,
                 firstName: true,
                 lastName: true,
-              }
+              },
             },
-            patientIdentifiers:{
-               select:{
+            patientIdentifiers: {
+              select: {
                 uuid: true,
-                 identifier: true
-               }
-            }
-          }
-        }
+                identifier: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -103,35 +109,42 @@ export class PatientsService {
       where: {
         uuid: uuid,
       },
-      select:{
+      select: {
         dob: true,
         gender: true,
         uuid: true,
-         patientNames:{
-           select:{
+        patientNames: {
+          select: {
             uuid: true,
-             firstName: true,
-             lastName: true,
-           }
-         },
-         patientIdentifiers:{
-            select:{
-              uuid: true,
-              identifier: true
-            }
-         }
-       }
+            firstName: true,
+            lastName: true,
+          },
+        },
+        patientIdentifiers: {
+          select: {
+            uuid: true,
+            identifier: true,
+          },
+        },
+      },
     });
     return patient;
   }
-  findIdFromUuid(uuid: string){
+  findIdFromUuid(uuid: string) {
     return this.prismaService.patient.findFirstOrThrow({
       where: {
         uuid: uuid,
       },
-      select:{
-        id: true
-      }
+      select: {
+        id: true,
+      },
+    });
+  }
+  findCount() {
+    return this.prismaService.patient.count({
+      where: {
+        voided: false,
+      },
     });
   }
 }

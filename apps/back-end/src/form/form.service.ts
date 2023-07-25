@@ -109,4 +109,11 @@ export class FormService {
       },
     });
   }
+  count() {
+    return this.prismaService.form.count({
+      where: {
+        voided: false,
+      },
+    });
+  }
 }

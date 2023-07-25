@@ -16,6 +16,7 @@ import AnswerType from '../pages/answer-type/answer-type';
 import Forms from '../pages/forms/forms';
 import FormBuilder from '../components/forms/form-builder/form-builder';
 import ProtectedRoute from './protected.router';
+import DashboardStatistics from '../components/dashboard-statistics/dashboard-statistics';
 
 export const appRouter = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const appRouter = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: '',
+        element: <DashboardStatistics />,
+      },
       {
         path: 'patient-search',
         element: <PatientSearch />,
@@ -105,7 +110,6 @@ export const appRouter = createBrowserRouter([
         path: 'forms/:formUuid',
         element: <FormBuilder />,
         loader: ({ params }) => {
-          console.log('params', params);
           return params;
         },
       },
