@@ -1,6 +1,7 @@
-import { removeItem } from "./local-storage.resource";
+import { removeItem } from './local-storage.resource';
 
-export const logOut = ()=>{
-    removeItem('access_token');
-    removeItem('current_user');
+export const logOut = () => {
+  removeItem('access_token');
+  removeItem('current_user');
+  removeItem('expires_at');
 };
