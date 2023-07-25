@@ -20,7 +20,8 @@ const LoginPage: React.FC = () => {
       setLoginMessage(msg);
     } else {
       setItem('access_token', newLogin.access_token);
-      setItem('current_user',values.username);
+      setItem('current_user', values.username);
+      setItem('expires_at', String(newLogin.expires_at));
       redirectToPatientSearch();
     }
   };
@@ -87,7 +88,9 @@ const LoginPage: React.FC = () => {
               <Button type="primary" htmlType="submit">
                 Login
               </Button>
-              <Link className={styles.signUpLink} to='/sign-up'>Signup instead</Link>     
+              <Link className={styles.signUpLink} to="/sign-up">
+                Signup instead
+              </Link>
             </Form.Item>
           </Form>
         </Card>

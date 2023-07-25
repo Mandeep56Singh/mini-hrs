@@ -16,7 +16,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
+  async login(
+    @Request() req
+  ): Promise<{ access_token: string; expires_at: number }> {
     return this.authService.login(req.user);
   }
 

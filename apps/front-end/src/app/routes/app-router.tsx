@@ -15,11 +15,16 @@ import Questions from '../pages/questions/questions';
 import AnswerType from '../pages/answer-type/answer-type';
 import Forms from '../pages/forms/forms';
 import FormBuilder from '../components/forms/form-builder/form-builder';
+import ProtectedRoute from './protected.router';
 
 export const appRouter = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -30,7 +35,11 @@ export const appRouter = createBrowserRouter([
   },
   {
     path: 'patient-dashboard',
-    element: <PatientDashboard />,
+    element: (
+      <ProtectedRoute>
+        <PatientDashboard />
+      </ProtectedRoute>
+    ),
     loader: ({ params }) => {
       return params;
     },
@@ -74,7 +83,11 @@ export const appRouter = createBrowserRouter([
   },
   {
     path: 'form-dashboard',
-    element: <FormDashboard />,
+    element: (
+      <ProtectedRoute>
+        <FormDashboard />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: 'questions',

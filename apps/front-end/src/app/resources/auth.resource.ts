@@ -1,5 +1,6 @@
 import { getApiUrl } from '../config/config.service';
 import { Login, LoginResponse, SignUp } from '../models/auth';
+import { getItem } from './local-storage.resource';
 
 interface ErroResp {
   statusCode: number;
@@ -37,4 +38,13 @@ export async function signUp(payload: SignUp) {
   });
 
   return signUpResp.json();
+}
+
+export function isLoggedIn(): boolean {
+  const token_expires_at = getItem('expires_at')
+    ? parseInt(getItem('expires_at'))
+    : 0;
+  const now = new Date();
+  const expiredDate = new Date(token_expires_at);
+  return expiredDate.getTime() > now.getTime();
 }

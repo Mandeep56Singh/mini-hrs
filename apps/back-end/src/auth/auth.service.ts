@@ -7,6 +7,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes, scrypt } from 'crypto';
 import { promisify } from 'util';
+import { jwtConstants } from './constants';
 
 const promisifiedScrypt = promisify(scrypt);
 
@@ -40,6 +41,7 @@ export class AuthService {
     const payload = { username: user.userName, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
+      expires_at: this.getTokenExpiryTime(),
     };
   }
   async signUp(username: string, password: string) {
@@ -53,5 +55,11 @@ export class AuthService {
     const hashedAndSaltedPw = salt + '.' + hash.toString('hex');
 
     return this.usersService.create(username, hashedAndSaltedPw);
+  }
+  private getTokenExpiryTime(): number {
+    const now = new Date();
+    const expiryTime = jwtConstants.expiresInS;
+    const expiry = now.setSeconds(now.getSeconds() + expiryTime);
+    return expiry;
   }
 }
