@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Question from './question-list';
+import QuestionList from './question-list';
 
 describe('Question', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Question />);
+    const { baseElement } = render(<QuestionList questions={[]} />);
     expect(baseElement).toBeTruthy();
   });
 });

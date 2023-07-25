@@ -14,7 +14,7 @@ const ErrorAlert: React.FC<{ error: ErrorProps }> = ({ error }) => {
   return (
     <Alert
       message={error.message}
-      description={error.info.message}
+      description={error?.info?.message}
       type="error"
       showIcon
     />
