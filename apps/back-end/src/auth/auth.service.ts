@@ -7,7 +7,6 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes, scrypt } from 'crypto';
 import { promisify } from 'util';
-import { jwtConstants } from './constants';
 
 const promisifiedScrypt = promisify(scrypt);
 
@@ -58,7 +57,7 @@ export class AuthService {
   }
   private getTokenExpiryTime(): number {
     const now = new Date();
-    const expiryTime = jwtConstants.expiresInS;
+    const expiryTime = 18000;
     const expiry = now.setSeconds(now.getSeconds() + expiryTime);
     return expiry;
   }
