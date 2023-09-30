@@ -5,7 +5,7 @@ pipeline {
             steps {
                 sh 'npm i'
             }
-        },
+        }
          stage('Test Front End') {
             steps {
                 sh 'npm run test:fe'
